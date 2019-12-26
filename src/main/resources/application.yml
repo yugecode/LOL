@@ -16,3 +16,7 @@ spring:
       max-active: 20
       #获取连接等待超时的时间
       max-wait: 60000
+
+#请求python接口的地址和端口
+python-address: 47.98.161.255
+python-port: 9999

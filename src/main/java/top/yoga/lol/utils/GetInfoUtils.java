@@ -17,10 +17,11 @@ public class GetInfoUtils {
     /**
      * 调用python爬虫程序获取英雄联盟相关信息
      *
-     * @param address python程序所在的地址
      * @return
      */
-    public static Map getLoLInfo(String address) {
+    public static Map getLoLInfo() {
+        //python文件所在地址
+        String address = "D:\\python\\project\\lol\\venv\\LoL\\LOLSpider.py";
         Map<String, String> map = new HashMap<>();
         BufferedReader in = null;
         String[] arguments = new String[]{"python", address};

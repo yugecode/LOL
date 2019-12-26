@@ -1,11 +1,16 @@
 package top.yoga.lol.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import top.yoga.lol.dao.SpellsDao;
 import top.yoga.lol.entity.Spells;
+import top.yoga.lol.vo.SpellsResp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +31,17 @@ public class SpellsService {
      *
      * @return
      */
-    public List<Spells> getAllSpells() {
-        return spellsDaoDao.findAllSpells();
+    public List<SpellsResp> getAllSpells() {
+        List<Spells> SpellsList = spellsDaoDao.findAllSpells();
+        List<SpellsResp> spellsResps = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(SpellsList)) {
+            for (Spells spells : SpellsList) {
+                SpellsResp spellsResp = new SpellsResp();
+                BeanUtils.copyProperties(spells, spellsResp);
+                spellsResps.add(spellsResp);
+            }
+        }
+        return spellsResps;
     }
 
     /**

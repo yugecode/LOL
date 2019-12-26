@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 import top.yoga.lol.common.ResponseTemplate;
 import top.yoga.lol.entity.Spells;
 import top.yoga.lol.service.SpellsService;
+import top.yoga.lol.vo.SpellsResp;
 
 import java.util.List;
 
 /**
+ * 召唤师技能信息
+ *
  * @author luojiayu
  * @date 2019/12/25 15:16
  */
@@ -27,8 +30,8 @@ public class SpellsController {
      *
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseTemplate<List<Spells>> getAllSpells() {
+    @RequestMapping(value = "/getList", method = RequestMethod.GET)
+    public ResponseTemplate<List<SpellsResp>> getAllSpells() {
         return ResponseTemplate.ok(spellsService.getAllSpells());
     }
 
