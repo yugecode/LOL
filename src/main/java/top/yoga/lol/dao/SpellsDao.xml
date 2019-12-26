@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yoga.lol.dao.SpellsDao">
+
+    <!--查询所有的召唤师技能信息-->
+    <select id="findAllSpells" resultType="top.yoga.lol.entity.Spells">
+        SELECT * FROM summoner_spells WHERE status_flag = 1;
+    </select>
+    <!--通过id查询召唤师技能信息-->
+    <select id="findSpellById" parameterType="java.lang.Integer" resultType="top.yoga.lol.entity.Spells">
+        SELECT * FROM summoner_spells
+        WHERE status_flag = 1
+        and id=#{id};
+    </select>
+
+
+</mapper>
