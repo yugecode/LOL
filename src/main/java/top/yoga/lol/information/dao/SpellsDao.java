@@ -1,7 +1,7 @@
-package top.yoga.lol.dao;
+package top.yoga.lol.information.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.yoga.lol.entity.Spells;
+import top.yoga.lol.information.entity.Spells;
 
 import java.util.List;
 

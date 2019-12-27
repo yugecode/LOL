@@ -3,11 +3,7 @@ package top.yoga.lol.common.exception;
 import top.yoga.lol.common.ResponseTemplate;
 
 /**
- * @Classname AppException
- * @Description 应用业务异常
- * @Author futao@ghostcloud.cn
- * @Data 创建时间：2019/4/2
- * @Version 1.0
+ * @author luojiayu
  */
 public class AppException extends RuntimeException {
 

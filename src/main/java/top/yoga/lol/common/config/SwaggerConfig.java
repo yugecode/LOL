@@ -1,4 +1,4 @@
-package top.yoga.lol.config;
+package top.yoga.lol.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

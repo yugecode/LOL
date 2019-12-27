@@ -24,6 +24,18 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--邮件服务依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- redis添加 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
         <!--mybatis依赖-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

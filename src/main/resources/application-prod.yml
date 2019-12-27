@@ -1,0 +1,49 @@
+server:
+  port: 80
+spring:
+  #数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.161.255:3307/LOL?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: password
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+
+  #邮件服务配置
+  mail:
+    host: smtp.qq.com
+    username: ljy_0624@qq.com
+    password: esxwgzlcrpbcihha
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true
+          required: true
+    default-encoding: UTF-8
+    fromMail:
+      addr: ljy_0624@qq.com
+
+  #redis相关配置
+  redis:
+    host: 47.98.161.255
+    password: password
+    port: 6379
+    database: 0
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 3000
+        max-idle: 20
+        min-idle: 2
+
+#请求python接口的地址和端口
+python-address: 47.98.161.255
+python-port: 9999

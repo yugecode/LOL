@@ -1,4 +1,4 @@
-package top.yoga.lol.entity;
+package top.yoga.lol.information.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

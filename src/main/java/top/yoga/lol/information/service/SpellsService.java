@@ -1,14 +1,13 @@
-package top.yoga.lol.service;
+package top.yoga.lol.information.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import top.yoga.lol.dao.SpellsDao;
-import top.yoga.lol.entity.Spells;
-import top.yoga.lol.vo.SpellsResp;
+import top.yoga.lol.information.dao.SpellsDao;
+import top.yoga.lol.information.entity.Spells;
+import top.yoga.lol.information.vo.SpellsResp;
 
 import java.util.ArrayList;
 import java.util.List;

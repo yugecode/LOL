@@ -1,4 +1,4 @@
-package top.yoga.lol.controller;
+package top.yoga.lol.information.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.yoga.lol.common.ResponseTemplate;
-import top.yoga.lol.entity.Spells;
-import top.yoga.lol.service.SpellsService;
-import top.yoga.lol.vo.SpellsResp;
+import top.yoga.lol.information.entity.Spells;
+import top.yoga.lol.information.service.SpellsService;
+import top.yoga.lol.information.vo.SpellsResp;
 
 import java.util.List;
 

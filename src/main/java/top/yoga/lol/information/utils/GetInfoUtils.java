@@ -1,4 +1,4 @@
-package top.yoga.lol.utils;
+package top.yoga.lol.information.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
