@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yoga.lol.user.dao.UserDao">
+    <select id="getUserByName" parameterType="java.lang.String" resultType="top.yoga.lol.user.entity.User">
+        SELECT * FROM `user`
+        WHERE
+	    status_flag = 1
+	    AND user_name = #{name}
+    </select>
+
+    <insert id="insertUser" parameterType="top.yoga.lol.user.entity.User">
+        insert into user(`user_name`,`password`,`email`)
+        values (#{userName},#{password},#{email})
+    </insert>
+</mapper>

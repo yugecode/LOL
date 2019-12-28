@@ -26,8 +26,8 @@ public class SwaggerConfig {
     // Describe your apis
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("OA Management Rest APIs")
-            .description("This page lists all the rest apis for OA Management App.")
+            .title("毕业设计")
+            .description("毕业设计LOL助手app")
             .version("1.0-SNAPSHOT")
             .build();
     }

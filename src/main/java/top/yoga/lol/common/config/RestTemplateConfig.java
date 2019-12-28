@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * RestTemplate的相关配置类时
+ * 请求三方接口
  */
 @Configuration
 public class RestTemplateConfig {

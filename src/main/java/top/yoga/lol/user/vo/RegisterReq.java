@@ -22,7 +22,7 @@ public class RegisterReq {
     /**
      * 用户名
      */
-    private String name;
+    private String userName;
 
     /**
      * 密码
