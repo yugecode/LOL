@@ -46,6 +46,8 @@ public class RegisterService {
         User user = new User();
         BeanUtils.copyProperties(registerReq, user);
         userDao.insertUser(user);
+        //从redis中将验证码给删除
+        redisUtils.del(email);
         log.info("注册用户信息为：{}", user);
     }
 }

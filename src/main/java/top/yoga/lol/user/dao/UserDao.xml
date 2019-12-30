@@ -9,7 +9,6 @@
     </select>
 
     <insert id="insertUser" parameterType="top.yoga.lol.user.entity.User">
-        insert into user(`user_name`,`password`,`email`)
-        values (#{userName},#{password},#{email})
+        call addUser(#{userName},#{password},#{email})
     </insert>
 </mapper>
