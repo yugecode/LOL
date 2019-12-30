@@ -17,8 +17,8 @@ spring:
   #邮件服务配置
   mail:
     host: smtp.qq.com
-    username: ljy_0624@qq.com
-    password: esxwgzlcrpbcihha
+    username: 532132647@qq.com
+    password: kzvtfjozariabijc
     properties:
       mail:
         smtp:
@@ -28,7 +28,7 @@ spring:
           required: true
     default-encoding: UTF-8
     fromMail:
-      addr: ljy_0624@qq.com
+      addr: 532132647@qq.com
 
   #redis相关配置
   redis:

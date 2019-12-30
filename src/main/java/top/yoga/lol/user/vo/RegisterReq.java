@@ -38,6 +38,13 @@ public class RegisterReq {
     private String password;
 
     /**
+     * 确认密码
+     */
+    @NotBlank(message = "确认密码不能为空")
+    @PasswordPattern
+    private String re_password;
+
+    /**
      * 邮箱
      */
     @NotBlank(message = "邮箱不能为空")

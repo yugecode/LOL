@@ -37,6 +37,9 @@ public class RegisterService {
             log.info("接受者：{}，验证码：{}", email, code);
             throw new AppException("验证码失效!");
         }
+        if (!registerReq.getPassword().equals(registerReq.getRe_password())) {
+            throw new AppException("两次密码不一致，请重新输入!");
+        }
         //验证码验证成功进行注册
         //查询是否存在该名字
         User userDB = userDao.getUserByName(registerReq.getUserName());
