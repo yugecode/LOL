@@ -42,7 +42,7 @@ public class MailUtils {
             mailSender.send(mailMessage);
             log.info("发送验证码成功,接受者：{}，验证码：{}", to, code);
         } catch (Exception e) {
-            log.info("发送验证码失败");
+            log.info("发送验证码失败,{}",e.getMessage());
         }
         return code;
     }
