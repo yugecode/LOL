@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import top.yoga.lol.user.entity.User;
 
 /**
+ * 用户持久层
+ *
  * @author luojiayu
  * @date 2019/12/28 17:12
  */
@@ -17,6 +19,14 @@ public interface UserDao {
      * @return
      */
     User getUserByName(String name);
+
+    /**
+     * 修改用户信息
+     *
+     * @param user
+     * @return
+     */
+    int modifyUser(User user);
 
     /**
      * 插入用户

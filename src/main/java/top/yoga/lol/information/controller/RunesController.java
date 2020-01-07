@@ -15,7 +15,7 @@ import top.yoga.lol.information.service.RunesService;
  * @date 2019/12/26 10:56
  */
 @RestController
-@RequestMapping("runes")
+@RequestMapping("/info/runes")
 public class RunesController {
 
     @Autowired

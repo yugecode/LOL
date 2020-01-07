@@ -1,4 +1,4 @@
-package site.apidata.data.common.config;
+package top.yoga.lol.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -12,7 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-
+/**
+ * redis配置类
+ */
 @Configuration
 @EnableCaching
 public class RedisConfig {

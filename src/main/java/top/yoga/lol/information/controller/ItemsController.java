@@ -15,7 +15,7 @@ import top.yoga.lol.information.service.ItemsService;
  * @date 2019/12/26 11:48
  */
 @RestController
-@RequestMapping("/items")
+@RequestMapping("/info/items")
 public class ItemsController {
 
     @Autowired

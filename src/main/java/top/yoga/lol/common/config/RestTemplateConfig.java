@@ -8,7 +8,7 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * RestTemplate的相关配置类时
+ * RestTemplate的相关配置类
  * 请求三方接口
  */
 @Configuration

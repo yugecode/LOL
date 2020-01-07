@@ -16,7 +16,7 @@ import top.yoga.lol.information.service.HerosService;
  * @date 2019/12/26 11:38
  */
 @RestController
-@RequestMapping("/heros")
+@RequestMapping("/info/heros")
 public class HerosController {
 
     @Autowired

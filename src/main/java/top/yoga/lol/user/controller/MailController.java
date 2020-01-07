@@ -21,9 +21,22 @@ public class MailController {
     @Autowired
     private MailService mailService;
 
+    /**
+     * 发送邮件
+     *
+     * @param email 接收方邮箱地址
+     * @return {@link ResponseTemplate}
+     * @author luojiayu
+     * @date 2020/1/7
+     */
     @GetMapping("/sendMail")
     public ResponseTemplate sendMail(@Email @RequestParam("email") String email) {
         mailService.sendMail(email);
         return ResponseTemplate.ok();
+    }
+
+    @GetMapping("/sendCode")
+    public ResponseTemplate<Integer> sendCode(){
+        return ResponseTemplate.ok(mailService.sendCode());
     }
 }

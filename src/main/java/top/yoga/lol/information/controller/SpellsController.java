@@ -19,7 +19,7 @@ import java.util.List;
  * @date 2019/12/25 15:16
  */
 @RestController
-@RequestMapping("/spells")
+@RequestMapping("/info/spells")
 public class SpellsController {
 
     @Autowired

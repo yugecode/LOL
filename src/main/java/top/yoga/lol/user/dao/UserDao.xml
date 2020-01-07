@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yoga.lol.user.dao.UserDao">
+    <parameterMap id="baseParam" type="top.yoga.lol.user.entity.User">
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="userName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="password" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="email" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
     <select id="getUserByName" parameterType="java.lang.String" resultType="top.yoga.lol.user.entity.User">
-        SELECT * FROM `user`
+        SELECT id,user_name,password,email FROM `user`
         WHERE
 	    status_flag = 1
 	    AND user_name = #{name}
     </select>
 
-    <insert id="insertUser" parameterType="top.yoga.lol.user.entity.User">
-        call addUser(#{userName},#{password},#{email})
+    <!--更新用户信息-->
+    <update id="modifyUser" parameterType="top.yoga.lol.user.entity.User" >
+        update `user` set
+        user_name = #{userName},
+        password = #{password},
+        email = #{email}
+        where id = #{id}
+    </update>
+
+    <!--插入用户信息，call addUser(#{userName},#{password},#{email})-->
+    <insert id="insertUser" parameterType="top.yoga.lol.user.entity.User"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `user`(user_name,password,email)
+        values (#{userName},#{password},#{email})
     </insert>
 </mapper>

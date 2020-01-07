@@ -1,6 +1,8 @@
-package top.yoga.lol.common;
+package top.yoga.lol.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import top.yoga.lol.common.ResponseTemplate;
 import top.yoga.lol.common.exception.AppException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +44,33 @@ public class CommonExceptionHandler {
             .build();
     }
 
+    /**
+     * 拦截未登录的接口信息处理
+     *
+     * @param ex
+     * @return {@link ResponseTemplate}
+     * @author luojiayu
+     * @date 2020/1/7
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseBody
+    public ResponseTemplate validateHandler(AuthenticationException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseTemplate.builder()
+            .code("403")
+            .msg("请登录")
+            .build();
+    }
+
+    @ExceptionHandler(UnauthenticatedException.class)
+    @ResponseBody
+    public ResponseTemplate validateHandler(UnauthenticatedException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseTemplate.builder()
+            .code("403")
+            .msg("请登录")
+            .build();
+    }
     /**
      * 处理参数校验异常错误
      *

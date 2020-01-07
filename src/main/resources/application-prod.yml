@@ -1,5 +1,8 @@
 server:
   port: 80
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 spring:
   #数据源配置
   datasource:
@@ -13,6 +16,14 @@ spring:
       min-idle: 5
       max-active: 20
       max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: false
+      maxPoolPreparedStatementPerConnectionSize: 200
 
   #邮件服务配置
   mail:
