@@ -30,5 +30,5 @@ public class SpellsResp {
     /**
      * 技能头像
      */
-    private String heard_photo;
+    private String heardPhoto;
 }

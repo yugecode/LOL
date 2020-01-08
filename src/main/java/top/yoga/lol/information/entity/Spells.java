@@ -40,7 +40,7 @@ public class Spells {
     /**
      * 技能头像
      */
-    private String heard_photo;
+    private String heardPhoto;
 
     /**
      * 技能效果图

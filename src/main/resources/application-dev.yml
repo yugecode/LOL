@@ -30,10 +30,14 @@ spring:
     host: smtp.qq.com
     username: 532132647@qq.com
     password: kzvtfjozariabijc
+    port: 465
     properties:
       mail:
         smtp:
           auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
         starttls:
           enable: true
           required: true
