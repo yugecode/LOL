@@ -11,11 +11,15 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.utils.PasswordUtils;
 import top.yoga.lol.common.utils.RedisUtils;
 import top.yoga.lol.user.dao.UserDao;
 import top.yoga.lol.user.entity.User;
+import top.yoga.lol.user.utils.MailUtils;
+import top.yoga.lol.user.utils.UserUtils;
+import top.yoga.lol.user.vo.ForgetPasswordReq;
 import top.yoga.lol.user.vo.LoginReq;
 import top.yoga.lol.user.vo.ModifyReq;
 import top.yoga.lol.user.vo.RegisterReq;
@@ -47,6 +51,7 @@ public class UserService {
      *
      * @param registerReq
      */
+    @Transactional
     public void register(RegisterReq registerReq) {
         log.info("注册请求参数：{}", registerReq);
         //查询是否存在该名字
@@ -90,6 +95,7 @@ public class UserService {
      * @author luojiayu
      * @date 2020/1/7
      */
+    @Transactional
     public UserVo login(LoginReq loginReq, HttpServletRequest request) {
         log.info("登录请求参数：{}", loginReq);
         //获取验证码
@@ -112,7 +118,7 @@ public class UserService {
         // 根据用户名和密码创建 Token
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), password);
         // 获取 subject 认证主体
-        Subject subject = SecurityUtils.getSubject();
+        Subject subject = UserUtils.getSubject();
         try {
             // 开始认证，这一步会跳到我们自定义的 Realm 中
             subject.login(token);
@@ -134,9 +140,8 @@ public class UserService {
      * @date 2020/1/7
      */
     public void logout() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = UserUtils.getUserInfo();
+        Subject subject = UserUtils.getSubject();
         if (null == user) {
             throw new AppException("未登录，无法进行退出");
         }
@@ -152,10 +157,10 @@ public class UserService {
      * @author luojiayu
      * @date 2020/1/7
      */
+    @Transactional
     public void modifyPassword(ModifyReq modifyReq) {
         log.info("修改密码参数：{}", modifyReq);
-        Session session = SecurityUtils.getSubject().getSession();
-        User user = (User) session.getAttribute("user");
+        User user = UserUtils.getUserInfo();
         if (null == user) {
             throw new AppException("请登录");
         }
@@ -194,5 +199,43 @@ public class UserService {
         redisUtils.del(email);
         //改完密码之后退出登录
         SecurityUtils.getSubject().logout();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param forgetPasswordReq 忘记密码请求体
+     * @author luojiayu
+     * @date 2020/1/8
+     */
+    @Transactional
+    public void forgetPassword(ForgetPasswordReq forgetPasswordReq) {
+        log.info("请求参数：{}", forgetPasswordReq);
+        String email = forgetPasswordReq.getEmail();
+        String password = forgetPasswordReq.getNewPassword();
+        User user_db = userDao.getUserByName(forgetPasswordReq.getUserName());
+        if (null == user_db) {
+            throw new AppException("该用户不存在");
+        }
+        if (!forgetPasswordReq.getEmail().equals(user_db.getEmail())) {
+            throw new AppException("用户邮箱地址不正确");
+        }
+        //从redis取出验证码
+        Integer redisCode = (Integer) redisUtils.get(email);
+        //删除缓存
+        redisUtils.del(email);
+        if (!forgetPasswordReq.getCode().equals(redisCode)) {
+            throw new AppException("验证码不正确");
+        }
+        if (!password.equals(forgetPasswordReq.getConfirmPassword())) {
+            throw new AppException("两次密码不一致");
+        }
+        User user = new User();
+        user.setPassword(passwordUtils.encodePassword(password, String.valueOf(user_db.getId())));
+        user.setEmail(email);
+        user.setId(user_db.getId());
+        user.setUserName(user_db.getUserName());
+        log.info("修改后的用户信息为：{}", user);
+        userDao.modifyUser(user);
     }
 }

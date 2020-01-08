@@ -17,6 +17,7 @@ import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.utils.PasswordUtils;
 import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.service.UserService;
+import top.yoga.lol.user.vo.ForgetPasswordReq;
 import top.yoga.lol.user.vo.LoginReq;
 import top.yoga.lol.user.vo.ModifyReq;
 import top.yoga.lol.user.vo.RegisterReq;
@@ -91,6 +92,20 @@ public class UserController {
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.PUT)
     public ResponseTemplate modifyPassword(@Validated @RequestBody ModifyReq modifyReq) {
         userService.modifyPassword(modifyReq);
+        return ResponseTemplate.ok();
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param forgetPasswordReq 忘记密码请求体
+     * @return {@link ResponseTemplate}
+     * @author luojiayu
+     * @date 2020/1/8
+     */
+    @RequestMapping(value = "/forgetPassword", method = RequestMethod.POST)
+    public ResponseTemplate forgetPassword(@Validated @RequestBody ForgetPasswordReq forgetPasswordReq) {
+        userService.forgetPassword(forgetPasswordReq);
         return ResponseTemplate.ok();
     }
 }

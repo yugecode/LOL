@@ -66,13 +66,16 @@ public class ShiroConfig {
         //放行发邮件
         filterChainMap.put("/sendMail", "anon");
         // 登录 URL 放行
-        filterChainMap.put("/login", "anon");
+        filterChainMap.put("/user/login", "anon");
+        filterChainMap.put("/user/forgetPassword", "anon");
+        filterChainMap.put("/user/register", "anon");
         // 以“/info/” 开头的用户需要身份认证，authc 表示要进行身份认证
         //英雄联盟信息接口
         filterChainMap.put("/info/**", "authc");
         //帖子相关接口进行拦截
         filterChainMap.put("/tweet/**", "authc");
         // 修改密码需要身份认证
+        filterChainMap.put("/user/logout", "authc");
         filterChainMap.put("/user/modifyPassword", "authc");
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "logout");
