@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yoga.lol.tweet.dao.TweetDao">
+    <resultMap id="tweetList" type="top.yoga.lol.tweet.entity.Tweet">
+        <result column="tweetId" jdbcType="INTEGER" property="tweetId"></result>
+        <result column="title" jdbcType="VARCHAR" property="title"></result>
+        <result column="content" jdbcType="VARCHAR" property="content"></result>
+        <result column="tweetUserId" jdbcType="INTEGER" property="tweetUserId"></result>
+        <result column="releaseTime" jdbcType="TIMESTAMP" property="releaseTime"></result>
+        <collection property="tumbupsList" ofType="top.yoga.lol.tweet.entity.tumbups">
+            <result column="tweetId" jdbcType="INTEGER" property="tweetId"></result>
+            <result column="userId" jdbcType="INTEGER" property="userId"></result>
+            <result column="userName" jdbcType="VARCHAR" property="userName"></result>
+            <result column="tumbupsId" jdbcType="INTEGER" property="tumbupsId"></result>
+        </collection>
+    </resultMap>
     <insert id="insertTweet" parameterType="top.yoga.lol.tweet.entity.Tweet">
         insert into tweet(`title`,`content`,`user_id`)
         values(#{title},#{content},#{userId})
     </insert>
+    <select id="getListTweet" parameterType="java.lang.Integer" resultMap="tweetList">
+        SELECT
+        t.gmt_create AS releaseTime,
+        t.id AS tweetId,
+        t.title,
+        t.content,
+        t.user_id AS tweetUserId,
+        tu.user_id AS userId,
+        u.user_name AS userName,
+        tu.id AS tumbupsId
+        FROM tweet t
+        LEFT JOIN tumbups tu ON tu.tweet_id = t.id
+        LEFT JOIN `user` u ON u.id = tu.user_id
+        where t.status_flag = 1 and u.status_flag = 1 and tu.status_flag = 1
+        <if test="userId !=null">
+            and t.user_id = #{userId}
+        </if>
+        ORDER BY
+        t.gmt_create DESC
+    </select>
+
+    <select id="getTweetById" parameterType="java.lang.Integer" resultType="top.yoga.lol.tweet.entity.Tweet">
+        select id as tweetId,title,content,user_id as tweetUserId
+        from tweet
+        where id =#{tweetId}
+    </select>
 </mapper>

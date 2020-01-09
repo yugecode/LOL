@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * 帖子实体类
  *
@@ -16,12 +18,45 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tweet {
+    /**
+     * 帖子id
+     */
+    private Integer tweetId;
 
-    private Integer id;
-
+    /**
+     * 帖子标题
+     */
     private String title;
 
+    /**
+     * 帖子内容
+     */
     private String content;
 
-    private Integer userId;
+    /**
+     * 发帖用户id
+     */
+    private Integer tweetUserId;
+
+    /**
+     * 发帖用户名
+     */
+    private String tweetUserName;
+
+    /**
+     * 点赞信息
+     */
+    private List<tumbups> tumbupsList;
+
+    /**
+     * 点赞数量
+     */
+    private Integer num;
+
+    /**
+     * 帖子发布时间
+     */
+    private String releaseTime;
+
+
 }

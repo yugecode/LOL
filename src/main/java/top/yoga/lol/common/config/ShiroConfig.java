@@ -6,7 +6,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.yoga.lol.common.auth.MyFilter;
+import top.yoga.lol.common.filter.MyFilter;
 import top.yoga.lol.common.auth.MyRealm;
 
 import javax.servlet.Filter;

@@ -14,6 +14,13 @@
 	    AND user_name = #{name}
     </select>
 
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="top.yoga.lol.user.entity.User">
+        SELECT id,user_name,password,email FROM `user`
+        WHERE
+	    status_flag = 1
+	    AND id = #{id}
+    </select>
+
     <!--更新用户信息-->
     <update id="modifyUser" parameterType="top.yoga.lol.user.entity.User" >
         update `user` set

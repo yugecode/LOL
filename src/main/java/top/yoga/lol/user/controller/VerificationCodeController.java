@@ -16,7 +16,7 @@ import javax.validation.constraints.Email;
  * @date 2019/12/27 15:31
  */
 @RestController
-public class MailController {
+public class VerificationCodeController {
 
     @Autowired
     private MailService mailService;

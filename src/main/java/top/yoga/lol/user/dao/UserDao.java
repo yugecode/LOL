@@ -21,6 +21,14 @@ public interface UserDao {
     User getUserByName(String name);
 
     /**
+     * 通过id用户信息
+     *
+     * @param id
+     * @return
+     */
+    User getUserById(Integer id);
+
+    /**
      * 修改用户信息
      *
      * @param user
