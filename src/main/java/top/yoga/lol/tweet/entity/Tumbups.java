@@ -33,6 +33,11 @@ public class Tumbups {
     private Integer userId;
 
     /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
      * 点赞状态 1.点赞 0.未点赞
      */
     private Integer statusFlag;

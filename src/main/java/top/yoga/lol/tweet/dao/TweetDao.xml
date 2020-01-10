@@ -14,7 +14,7 @@
             <result column="tumbupsId" jdbcType="INTEGER" property="tumbupsId"></result>
         </collection>
     </resultMap>
-    <insert id="insertTweet" parameterType="top.yoga.lol.tweet.entity.Tweet">
+    <insert id="insertTweet" parameterType="top.yoga.lol.tweet.vo.TweetReq">
         insert into tweet(`title`,`content`,`user_id`)
         values(#{title},#{content},#{userId})
     </insert>

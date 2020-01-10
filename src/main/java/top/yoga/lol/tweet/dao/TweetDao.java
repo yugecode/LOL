@@ -3,6 +3,7 @@ package top.yoga.lol.tweet.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.yoga.lol.tweet.entity.Tweet;
+import top.yoga.lol.tweet.vo.TweetReq;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface TweetDao {
 
-    int insertTweet(Tweet tweet);
+    int insertTweet(TweetReq tweet);
 
     List<Tweet> getListTweet(@Param("userId")Integer userId);
 

@@ -1,5 +1,6 @@
 package top.yoga.lol.tweet.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TweetReq {
+
+    /**
+     * 帖子id
+     */
+    @JsonIgnore
+    private Integer id;
 
     /**
      * 用户id

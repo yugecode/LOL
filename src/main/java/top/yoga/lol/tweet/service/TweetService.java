@@ -62,8 +62,7 @@ public class TweetService {
             throw new AppException("当前账号不一致");
         }
         Tweet tweet = new Tweet();
-        BeanUtils.copyProperties(tweetReq, tweet);
-        tweetDao.insertTweet(tweet);
+        tweetDao.insertTweet(tweetReq);
     }
 
     /**
