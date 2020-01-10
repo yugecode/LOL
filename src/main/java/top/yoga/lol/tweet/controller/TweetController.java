@@ -76,4 +76,19 @@ public class TweetController {
         tweetService.sendContent(commentReq);
         return ResponseTemplate.ok();
     }
+
+    /**
+     *
+     * @param tweetId
+     * @param userId
+     * @return {@link String}
+     * @author luojiayu
+     * @date 2020/1/10
+     */
+    @RequestMapping(value = "/clickTumbups", method = RequestMethod.GET)
+    public ResponseTemplate<String> clickTumbups(@RequestParam("tweetId") Integer tweetId,
+                                                 @RequestParam("userId") Integer userId) {
+        String msg = tweetService.clickTumbups(tweetId, userId);
+        return ResponseTemplate.ok(msg);
+    }
 }

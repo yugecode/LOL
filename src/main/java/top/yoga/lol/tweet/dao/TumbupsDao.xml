@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yoga.lol.tweet.dao.TumbupsDao">
+    <select id="getTumbupsById" resultType="top.yoga.lol.tweet.entity.Tumbups">
+        select id as tumbupsId,tweet_id,user_id,status_flag from tumbups
+        where tweet_id =#{tweetId} and user_id=#{userId}
+    </select>
+
+    <insert id="inseretTumbupsById">
+        insert into tumbups(`tweet_id`,`user_id`) values(#{tweetId},#{userId})
+    </insert>
+
+    <update id="tumbupsToNot">
+        update tumbups set `status_flag` = 0
+        where tweet_id = #{tweetId}
+        and user_id =#{userId}
+    </update>
+
+    <update id="notToTumbups">
+        update tumbups set `status_flag` = 1
+        where tweet_id = #{tweetId}
+        and user_id =#{userId}
+    </update>
+
+</mapper>

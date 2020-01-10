@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class tumbups {
+public class Tumbups {
 
     /**
      * 点赞id
@@ -33,7 +33,8 @@ public class tumbups {
     private Integer userId;
 
     /**
-     * 用户名
+     * 点赞状态 1.点赞 0.未点赞
      */
-    private String userName;
+    private Integer statusFlag;
+
 }

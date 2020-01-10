@@ -46,7 +46,7 @@ public class Tweet {
     /**
      * 点赞信息
      */
-    private List<tumbups> tumbupsList;
+    private List<Tumbups> tumbupsList;
 
     /**
      * 点赞数量
