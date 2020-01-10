@@ -36,7 +36,8 @@ public class VerificationCodeController {
     }
 
     @GetMapping("/sendCode")
-    public ResponseTemplate<Integer> sendCode(){
-        return ResponseTemplate.ok(mailService.sendCode());
+    public ResponseTemplate sendCode(String userName){
+        mailService.sendCode(userName);
+        return ResponseTemplate.ok();
     }
 }

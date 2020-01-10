@@ -3,7 +3,10 @@ package top.yoga.lol.user.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.utils.RedisUtils;
+import top.yoga.lol.user.dao.UserDao;
+import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.utils.MailUtils;
 
 /**
@@ -22,6 +25,9 @@ public class MailService {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private UserDao userDao;
+
     /**
      * 发送邮件
      *
@@ -36,14 +42,20 @@ public class MailService {
     /**
      * 发送验证码
      *
+     * @param name
      * @return {@link Integer}
      * @author luojiayu
      * @date 2020/1/7
      */
-    public Integer sendCode() {
-        Integer code = mailUtils.getRandom(1000, 9999);
+    public void sendCode(String name) {
+        User user = userDao.getUserByName(name);
+        if (null == user) {
+            throw new AppException("该账号未注册");
+        }
+        int code = mailUtils.sendCode(user.getEmail());
+        //将用户的email和验证码存入redis中
+        redisUtils.set(user.getEmail(), code, 60);
         redisUtils.set("code", code, 60);
         log.info("当前的验证码为：{}", code);
-        return code;
     }
 }

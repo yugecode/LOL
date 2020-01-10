@@ -48,6 +48,28 @@ public class MailUtils {
     }
 
     /**
+     * 传输一个邮件对象
+     *
+     * @param to 邮箱接受者
+     */
+    public int sendCode(String to) {
+        int code = getRandom(1000, 9999);
+        String message = "您好，您登陆邮箱验证码是：" + code + ",1分钟内有效!";
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject("验证码");
+        mailMessage.setText(message);
+        try {
+            mailSender.send(mailMessage);
+            log.info("发送验证码成功,接受者：{}，验证码：{}", to, code);
+        } catch (Exception e) {
+            log.info("发送验证码失败,{}",e.getMessage());
+        }
+        return code;
+    }
+
+    /**
      * 生成邮箱随机六位验证码
      *
      * @return

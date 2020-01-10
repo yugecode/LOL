@@ -98,21 +98,20 @@ public class UserService {
     @Transactional
     public UserVo login(LoginReq loginReq, HttpServletRequest request) {
         log.info("登录请求参数：{}", loginReq);
+        User user = userDao.getUserByName(loginReq.getUserName());
+        if (null == user) {
+            throw new AppException("该用户未进行注册");
+        }
         //获取验证码
-        Integer code = (Integer) redisUtils.get("code");
+        Integer code = (Integer) redisUtils.get(user.getEmail());
         if (null == code) {
             throw new AppException("验证码失效");
         }
         if (!loginReq.getCode().equals(code)) {
             throw new AppException("验证码输入错误");
         }
-        redisUtils.del("code");
+        redisUtils.del(user.getEmail());
         UserVo userVo = new UserVo();
-        //通过用户名查询用户
-        User user = userDao.getUserByName(loginReq.getUserName());
-        if (null == user) {
-            throw new AppException("用户名不存在");
-        }
         //将密码进行加密
         String password = passwordUtils.encodePassword(loginReq.getPassword(), String.valueOf(user.getId()));
         // 根据用户名和密码创建 Token
