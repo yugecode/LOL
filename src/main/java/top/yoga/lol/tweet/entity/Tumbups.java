@@ -1,5 +1,6 @@
 package top.yoga.lol.tweet.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +24,6 @@ public class Tumbups {
     private Integer tumbupsId;
 
     /**
-     * 帖子id
-     */
-    private Integer tweetId;
-
-    /**
      * 用户id
      */
     private Integer userId;
@@ -40,6 +36,7 @@ public class Tumbups {
     /**
      * 点赞状态 1.点赞 0.未点赞
      */
+    @JsonIgnore
     private Integer statusFlag;
 
 }

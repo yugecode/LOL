@@ -170,7 +170,6 @@ public class TweetService {
         if (!userId.equals(user.getId())) {
             throw new AppException("用户登录不一致，无法进行点赞");
         }
-        String msg = "";
         Tweet tweet = tweetDao.getTweetById(tweetId);
         if (null == tweet) {
             throw new AppException("帖子不存在无法进行点赞");
@@ -181,30 +180,29 @@ public class TweetService {
         if (null == tumbups_db) {
             int result = tumbupsDao.inseretTumbupsById(tweetId, userId);
             if (result > 0) {
-                msg = "点赞成功";
+                return "点赞成功";
             } else {
-                msg = "点赞失败";
+                return "点赞失败";
             }
         }
         //未点赞，进行点赞
         if (TumupusEnum.TUMUPUSNOT.getCode() == tumbups_db.getStatusFlag()) {
             int result = tumbupsDao.notToTumbups(tweetId, userId);
             if (result > 0) {
-                msg = "点赞成功";
+                return "点赞成功";
             } else {
-                msg = "点赞失败";
+                return "点赞失败";
             }
         }
         //已点赞，进行取消点赞
         if (TumupusEnum.TUMUPUS.getCode() == tumbups_db.getStatusFlag()) {
             int result = tumbupsDao.tumbupsToNot(tweetId, userId);
             if (result > 0) {
-                msg = "取消点赞成功";
+                return "取消点赞成功";
             } else {
-                msg = "取消点赞失败";
+                return "取消点赞失败";
             }
         }
-        log.info("msg:{}", msg);
-        return msg;
+        return null;
     }
 }

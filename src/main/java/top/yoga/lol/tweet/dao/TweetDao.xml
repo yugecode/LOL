@@ -8,7 +8,6 @@
         <result column="tweetUserId" jdbcType="INTEGER" property="tweetUserId"></result>
         <result column="releaseTime" jdbcType="TIMESTAMP" property="releaseTime"></result>
         <collection property="tumbupsList" ofType="top.yoga.lol.tweet.entity.Tumbups">
-            <result column="tweetId" jdbcType="INTEGER" property="tweetId"></result>
             <result column="userId" jdbcType="INTEGER" property="userId"></result>
             <result column="userName" jdbcType="VARCHAR" property="userName"></result>
             <result column="tumbupsId" jdbcType="INTEGER" property="tumbupsId"></result>
@@ -29,9 +28,10 @@
         u.user_name AS userName,
         tu.id AS tumbupsId
         FROM tweet t
-        LEFT JOIN tumbups tu ON tu.tweet_id = t.id
-        LEFT JOIN `user` u ON u.id = tu.user_id
-        where t.status_flag = 1 and u.status_flag = 1 and tu.status_flag = 1
+        LEFT JOIN tumbups tu ON tu.tweet_id = t.id and t.status_flag=1 and
+        (tu.status_flag=1 or tu.status_flag is null)
+        LEFT JOIN `user` u ON u.id = tu.user_id and u.status_flag=1
+        where 1=1
         <if test="userId !=null">
             and t.user_id = #{userId}
         </if>
