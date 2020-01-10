@@ -163,41 +163,19 @@ public class UserService {
         if (null == user) {
             throw new AppException("请登录");
         }
-        if (!modifyReq.getUserName().equals(user.getUserName())) {
-            throw new AppException("账号不一致，无法修改密码");
-        }
-        User user_db = userDao.getUserByName(modifyReq.getUserName());
-        //将登录的用户进行密码的加密
-        String pwd = passwordUtils.encodePassword(modifyReq.getPassword(), String.valueOf(user_db.getId()));
-        if (!user.getPassword().equals(pwd)) {
-            throw new AppException("输入的密码不正确，请重试");
-        }
-        if (!modifyReq.getModifyPassword().equals(modifyReq.getConfirmPassword())) {
-            throw new AppException("两次密码不一致");
-        }
-        String email = modifyReq.getEmail();
-        if (!email.equals(user_db.getEmail())) {
-            throw new AppException("邮箱地址不正确");
-        }
-        Integer code = modifyReq.getCode();
-        Integer redisCode = (Integer) redisUtils.get(email);
-        if (!code.equals(redisCode)) {
-            log.info("接受者：{}，验证码：{}", email, code);
-            throw new AppException("验证码失效!");
-        }
         //将修改的密码加密存到数据库中
-        String password = passwordUtils.encodePassword(modifyReq.getModifyPassword(), String.valueOf(user_db.getId()));
+        String password = passwordUtils.encodePassword(modifyReq.getModifyPassword(), String.valueOf(user.getId()));
         User user1 = User.builder()
-            .userName(modifyReq.getUserName())
-            .id(user.getId())
-            .email(email)
-            .password(password)
-            .build();
+                .id(user.getId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .password(password)
+                .build();
         log.info("修改后的用户信息：{}", user1);
         userDao.modifyUser(user1);
-        redisUtils.del(email);
         //改完密码之后退出登录
-        SecurityUtils.getSubject().logout();
+        UserUtils.removeSession();
+        UserUtils.getSubject().logout();
     }
 
     /**

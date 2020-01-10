@@ -15,7 +15,7 @@ public class UserUtils {
     /**
      * 认证主体
      */
-    private static Subject subject = SecurityUtils.getSubject();
+//    private static Subject subject = SecurityUtils.getSubject();
 
     /**
      * 获取当前用户
@@ -25,7 +25,7 @@ public class UserUtils {
      * @date 2020/1/8
      */
     public static User getUserInfo() {
-        Session session = subject.getSession();
+        Session session = SecurityUtils.getSubject().getSession();
         User user = (User) session.getAttribute("user");
         return user;
     }
@@ -38,6 +38,13 @@ public class UserUtils {
      * @date 2020/1/8
      */
     public static Subject getSubject() {
-        return subject;
+        return SecurityUtils.getSubject();
+    }
+
+    /**
+     * 移除session
+     */
+    public static void removeSession() {
+        SecurityUtils.getSubject().getSession().removeAttribute("user");
     }
 }
