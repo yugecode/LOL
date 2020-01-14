@@ -32,7 +32,7 @@ public class MailUtils {
      */
     public int sendMail(String to) {
         int code = getRandom(100000, 999999);
-        String message = "您好，邮箱验证码是：" + code + ",5分钟内有效!";
+        String message = "您好，邮箱验证码是：" + code + ",五分钟内有效!";
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(from);
         mailMessage.setTo(to);
@@ -42,7 +42,7 @@ public class MailUtils {
             mailSender.send(mailMessage);
             log.info("发送验证码成功,接受者：{}，验证码：{}", to, code);
         } catch (Exception e) {
-            log.info("发送验证码失败,{}",e.getMessage());
+            log.info("发送验证码失败,{}", e.getMessage());
         }
         return code;
     }
@@ -54,7 +54,7 @@ public class MailUtils {
      */
     public int sendCode(String to) {
         int code = getRandom(1000, 9999);
-        String message = "您好，您登陆邮箱验证码是：" + code + ",1分钟内有效!";
+        String message = "您好，您登陆邮箱验证码是：" + code + ",一分钟内有效!";
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(from);
         mailMessage.setTo(to);
@@ -64,13 +64,13 @@ public class MailUtils {
             mailSender.send(mailMessage);
             log.info("发送验证码成功,接受者：{}，验证码：{}", to, code);
         } catch (Exception e) {
-            log.info("发送验证码失败,{}",e.getMessage());
+            log.info("发送验证码失败,{}", e.getMessage());
         }
         return code;
     }
 
     /**
-     * 生成邮箱随机六位验证码
+     * 生成邮箱随机验证码
      *
      * @return
      */

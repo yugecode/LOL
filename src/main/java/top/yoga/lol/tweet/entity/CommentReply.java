@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 评论表实体
- *
  * @author luojiayu
- * @date 2020/1/9 16:05
+ * @date 2020/1/14 14:01
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class CommentReply {
 
     /**
      * 评论id
@@ -28,17 +26,17 @@ public class Comment {
     private Integer tweetId;
 
     /**
-     * 评论者id
+     * 评论者id，发布评论的人id
      */
-    private Integer userId;
+    private Integer commentUserId;
 
     /**
-     * 被评论者id
+     * 发布评论的用户名
      */
-    private Integer userBid;
+    private String commentUserName;
 
     /**
-     * 用户评论
+     * 被评论者的id
      */
-    private String content;
+    private Integer commentUserBid;
 }

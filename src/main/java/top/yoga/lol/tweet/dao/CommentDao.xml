@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yoga.lol.tweet.dao.CommentDao">
     <insert id="insertComment" parameterType="top.yoga.lol.tweet.entity.Comment">
-        insert into comment(`tweet_id`,`user_id`,`content`)
-        values (#{tweetId},#{userId},#{content})
+        insert into comment(`tweet_id`,`user_id`,`user_bid`,`content`)
+        values (#{tweetId},#{userId},#{userBid},#{content})
     </insert>
+
+    <select id="selectByIds" resultType="top.yoga.lol.tweet.entity.Comment">
+        select id commentId,tweet_id tweetId,user_id userId,user_bid userBid,content
+        from comment where tweet_id=#{tweetId} and id = #{commentId} and status_flag=1
+    </select>
+    <select id="selectCommentId" resultType="java.lang.Integer">
+        select c.id from comment c
+        left join tweet t on t.id=c.tweet_id
+        where c.tweet_id=#{tweetId}
+    </select>
 </mapper>

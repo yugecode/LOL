@@ -3,7 +3,14 @@
 <mapper namespace="top.yoga.lol.tweet.dao.TumbupsDao">
     <select id="getTumbupsById" resultType="top.yoga.lol.tweet.entity.Tumbups">
         select id as tumbupsId,tweet_id,user_id,status_flag from tumbups
-        where tweet_id =#{tweetId} and user_id=#{userId}
+        where tweet_id =#{tweetId}
+        and user_id=#{userId}
+    </select>
+
+    <select id="getTumbupsListById" resultType="top.yoga.lol.tweet.entity.Tumbups">
+        select tu.id as tumbupsId,tu.tweet_id,tu.user_id,tu.status_flag,u.user_name
+        from tumbups tu left join `user` u on u.id = tu.user_id
+        where tu.tweet_id =#{tweetId} and u.status_flag=1 and tu.status_flag=1
     </select>
 
     <insert id="inseretTumbupsById">

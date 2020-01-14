@@ -26,10 +26,16 @@ public class CommentReq {
     private Integer tweetId;
 
     /**
-     * 用户id
+     * 评论者id
      */
-    @NotNull(message = "用户id不能为空")
+    @NotNull(message = "评论者id不能为空")
     private Integer userId;
+
+    /**
+     * 被评论者id
+     */
+    @NotNull(message = "被评论者id不能为空")
+    private Integer userBid;
 
     /**
      * 用户评论

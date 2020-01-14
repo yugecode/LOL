@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.page.PageQueryBean;
 import top.yoga.lol.tweet.dao.CommentDao;
+import top.yoga.lol.tweet.dao.ReplyDao;
 import top.yoga.lol.tweet.dao.TumbupsDao;
 import top.yoga.lol.tweet.dao.TweetDao;
 import top.yoga.lol.tweet.entity.Comment;
@@ -18,13 +18,14 @@ import top.yoga.lol.tweet.entity.Tumbups;
 import top.yoga.lol.tweet.entity.Tweet;
 import top.yoga.lol.tweet.enums.TumupusEnum;
 import top.yoga.lol.tweet.vo.CommentReq;
+import top.yoga.lol.tweet.vo.ReplyReq;
+import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
 import top.yoga.lol.tweet.vo.TweetReq;
 import top.yoga.lol.user.dao.UserDao;
 import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.utils.UserUtils;
 
-import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class TweetService {
     @Autowired
     private TumbupsDao tumbupsDao;
 
+    @Autowired
+    private ReplyDao replyDao;
+
     /**
      * 发帖
      *
@@ -73,7 +77,6 @@ public class TweetService {
      * @date 2020/1/9
      */
     public TweetListVo listAllTweet() {
-        PageQueryBean<TweetListVo> page = new PageQueryBean<>();
         List<Tweet> listTweet = tweetDao.getListTweet(null);
         List<Tweet> tweets = new ArrayList<>();
         for (Tweet t : listTweet) {
@@ -142,7 +145,7 @@ public class TweetService {
             throw new AppException("当前用户id不一致无法进行帖子的评论");
         }
         //查询帖子是否存在
-        Tweet tweet = tweetDao.getTweetById(commentReq.getTweetId());
+        Tweet tweet = tweetDao.getTweetByIds(commentReq.getTweetId());
         if (null == tweet) {
             throw new AppException("帖子不存在");
         }
@@ -153,10 +156,10 @@ public class TweetService {
     }
 
     /**
-     * 点赞
+     * 点赞和取消点赞
      *
      * @param tweetId 帖子id
-     * @param userId  用户id
+     * @param userId  点赞用户id
      * @author luojiayu
      * @date 2020/1/10
      */
@@ -170,7 +173,7 @@ public class TweetService {
         if (!userId.equals(user.getId())) {
             throw new AppException("用户登录不一致，无法进行点赞");
         }
-        Tweet tweet = tweetDao.getTweetById(tweetId);
+        Tweet tweet = tweetDao.getTweetByIds(tweetId);
         if (null == tweet) {
             throw new AppException("帖子不存在无法进行点赞");
         }
@@ -202,6 +205,53 @@ public class TweetService {
             } else {
                 return "取消点赞失败";
             }
+        }
+        return null;
+    }
+
+    /**
+     * 发送回复
+     *
+     * @param req
+     */
+    public void sendReply(ReplyReq req) {
+        //先查询这条帖子有没有评论
+        Comment comment = commentDao.selectByIds(req.getTweetId(), req.getCommentId());
+        if (null == comment) {
+            throw new AppException("该帖子没有任何评论无法进行回复");
+        }
+        replyDao.insertReply(req);
+    }
+
+    /**
+     * 获取帖子详情信息
+     *
+     * @param tweetId 帖子id
+     * @author luojiayu
+     * @date 2020/1/13
+     */
+    public TweetDetailsVo getTweetDetails(Integer tweetId) {
+        log.info("帖子id为：{}", tweetId);
+        TweetDetailsVo tweetDetailsVo = new TweetDetailsVo();
+        //通过帖子id查询帖子是否存在
+        Tweet tweet_db = tweetDao.getTweetByIds(tweetId);
+        if (null == tweet_db) {
+            throw new AppException("没有id为" + tweetId + "的帖子");
+        }
+        //通过帖子id查询点赞信息
+        List<Tumbups> tumbupsList = tumbupsDao.getTumbupsListById(tweetId);
+        tweetDetailsVo.setTweetId(tweet_db.getTweetId());
+        tweetDetailsVo.setTitle(tweet_db.getTitle());
+        tweetDetailsVo.setContent(tweet_db.getContent());
+        tweetDetailsVo.setUserId(tweet_db.getTweetUserId());
+        tweetDetailsVo.setName(tweet_db.getTweetUserName());
+        tweetDetailsVo.setTumbupsList(tumbupsList);
+        tweetDetailsVo.setNum(tumbupsList.size());
+        //通过帖子id查询其下的评论id
+        List<Integer> commentIds = commentDao.selectCommentId(tweetId);
+        if (CollectionUtils.isEmpty(commentIds)) {
+            log.info("帖子详情信息：{}", tweetDetailsVo);
+            return tweetDetailsVo;
         }
         return null;
     }

@@ -20,5 +20,5 @@ public interface TweetDao {
 
     List<Tweet> getListTweet(@Param("userId")Integer userId);
 
-    Tweet getTweetById(Integer tweetId);
+    Tweet getTweetByIds(@Param("tweetId") Integer tweetId);
 }

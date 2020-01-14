@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import top.yoga.lol.common.ResponseTemplate;
 import top.yoga.lol.tweet.service.TweetService;
 import top.yoga.lol.tweet.vo.CommentReq;
+import top.yoga.lol.tweet.vo.ReplyReq;
+import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
 import top.yoga.lol.tweet.vo.TweetReq;
 
@@ -78,6 +80,7 @@ public class TweetController {
     }
 
     /**
+     * 帖子点赞和取消点赞
      *
      * @param tweetId
      * @param userId
@@ -90,5 +93,32 @@ public class TweetController {
                                                  @RequestParam("userId") Integer userId) {
         String msg = tweetService.clickTumbups(tweetId, userId);
         return ResponseTemplate.ok(msg);
+    }
+
+    /**
+     * 发送回复评论
+     *
+     * @param replyReq
+     * @return
+     * @author luojiayu
+     * @date 2020/1/13
+     */
+    @RequestMapping(value = "/reply", method = RequestMethod.POST)
+    public ResponseTemplate sendReply(@Validated @RequestBody ReplyReq replyReq) {
+        tweetService.sendReply(replyReq);
+        return ResponseTemplate.ok();
+    }
+
+    /**
+     * 获取帖子详情信息
+     *
+     * @param tweetId 帖子id
+     * @return
+     * @author luojiayu
+     * @date 2020/1/13
+     */
+    @RequestMapping(value = "/getDetails", method = RequestMethod.GET)
+    public ResponseTemplate<TweetDetailsVo> getTweetDetails(Integer tweetId) {
+        return ResponseTemplate.ok(tweetService.getTweetDetails(tweetId));
     }
 }

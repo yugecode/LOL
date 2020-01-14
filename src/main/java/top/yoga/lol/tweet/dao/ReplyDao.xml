@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yoga.lol.tweet.dao.ReplyDao">
+
+    <select id="selectReply" resultType="top.yoga.lol.tweet.entity.Reply">
+        select * from reply r
+        where r.tweet_id= #{tweetId}
+        and r.comment_id = #{commentId}
+        and r.user_bid = #{userBid}
+        and status_flag=1
+    </select>
+    <insert id="insertReply" parameterType="top.yoga.lol.tweet.vo.ReplyReq">
+        insert into reply(`pid`,`tweet_id`,`comment_id`,`user_id`,`user_bid`,`content`)
+        values(#{pid},#{tweetId},#{commentId},#{userId},#{userBid},#{content})
+    </insert>
+</mapper>

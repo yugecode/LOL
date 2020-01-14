@@ -39,9 +39,9 @@
         t.gmt_create DESC
     </select>
 
-    <select id="getTweetById" parameterType="java.lang.Integer" resultType="top.yoga.lol.tweet.entity.Tweet">
-        select id as tweetId,title,content,user_id as tweetUserId
-        from tweet
-        where id =#{tweetId}
+    <select id="getTweetByIds" parameterType="java.lang.Integer" resultType="top.yoga.lol.tweet.entity.Tweet">
+        select t.id as tweetId,t.title,t.content,t.user_id as tweetUserId,u.user_name as tweetUserName
+        from tweet t left join `user` u on u.id=t.user_id
+        where t.id =#{tweetId} and t.status_flag=1 and u.status_flag=1
     </select>
 </mapper>
