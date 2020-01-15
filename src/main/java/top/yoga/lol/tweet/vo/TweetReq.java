@@ -25,13 +25,19 @@ public class TweetReq {
      * 帖子id
      */
     @JsonIgnore
-    private Integer id;
+    private Integer tweetId;
 
     /**
      * 用户id
      */
     @NotNull(message = "用户id不能为空")
     private Integer userId;
+
+    /**
+     * 用户名
+     */
+    @JsonIgnore
+    private String userName;
 
     /**
      * 发帖标题

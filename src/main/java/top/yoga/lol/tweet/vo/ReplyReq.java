@@ -1,5 +1,6 @@
 package top.yoga.lol.tweet.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +22,6 @@ import javax.validation.constraints.NotNull;
 public class ReplyReq {
 
     /**
-     * 回复表父id
-     */
-    private Integer pid;
-
-    /**
      * 帖子id
      */
     @NotNull(message = "帖子id不能为空")
@@ -44,11 +40,22 @@ public class ReplyReq {
     private Integer userId;
 
     /**
+     * 回复者名字
+     */
+    @JsonIgnore
+    private String userName;
+
+    /**
      * 被回复的用户id，指的是发表评论的用户id
      */
     @NotNull(message = "被回复者id不能为空")
     private Integer userBid;
 
+    /**
+     * 被回复者名字
+     */
+    @JsonIgnore
+    private String userBName;
     /**
      * 回复内容
      */

@@ -26,12 +26,12 @@ public class Tumbups {
     /**
      * 用户id
      */
-    private Integer userId;
+    private Integer tumbupsUserId;
 
     /**
      * 用户名
      */
-    private String userName;
+    private String tumbupsUserName;
 
     /**
      * 点赞状态 1.点赞 0.未点赞

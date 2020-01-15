@@ -8,10 +8,40 @@
         <result column="tweetUserId" jdbcType="INTEGER" property="tweetUserId"></result>
         <result column="releaseTime" jdbcType="TIMESTAMP" property="releaseTime"></result>
         <collection property="tumbupsList" ofType="top.yoga.lol.tweet.entity.Tumbups">
-            <result column="userId" jdbcType="INTEGER" property="userId"></result>
-            <result column="userName" jdbcType="VARCHAR" property="userName"></result>
+            <result column="userId" jdbcType="INTEGER" property="tumbupsUserId"></result>
+            <result column="userName" jdbcType="VARCHAR" property="tumbupsUserName"></result>
             <result column="tumbupsId" jdbcType="INTEGER" property="tumbupsId"></result>
         </collection>
+    </resultMap>
+    <resultMap id="tweetDetails" type="top.yoga.lol.tweet.vo.TweetDetailsVo">
+        <result column="tweetId" jdbcType="INTEGER" property="tweetId"></result>
+        <result column="tweetTitle" jdbcType="VARCHAR" property="tweetTitle"></result>
+        <result column="tweetContent" jdbcType="VARCHAR" property="tweetContent"></result>
+        <result column="tweetUserId" jdbcType="INTEGER" property="tweetUserId"></result>
+        <result column="userName" jdbcType="VARCHAR" property="userName"></result>
+        <result column="releaseTime" jdbcType="TIMESTAMP" property="releaseTime"></result>
+        <collection property="tumbupsList" ofType="top.yoga.lol.tweet.entity.Tumbups">
+            <result column="tumbupsUserId" jdbcType="INTEGER" property="tumbupsUserId"></result>
+            <result column="tumbupsUserName" jdbcType="VARCHAR" property="tumbupsUserName"></result>
+            <result column="tumbupsId" jdbcType="INTEGER" property="tumbupsId"></result>
+        </collection>
+        <collection property="commentReplies" ofType="top.yoga.lol.tweet.entity.CommentReply">
+            <result column="commentId" jdbcType="INTEGER" property="commentId"></result>
+            <result column="commentUserId" jdbcType="INTEGER" property="commentUserId"></result>
+            <result column="commentUserName" jdbcType="VARCHAR" property="commentUserName"></result>
+            <result column="commentUserBid" jdbcType="INTEGER" property="commentUserBid"></result>
+            <result column="commentUserBName" jdbcType="VARCHAR" property="commentUserBName"></result>
+            <result column="commentContent" jdbcType="VARCHAR" property="commentContent"></result>
+            <association property="replyList" resultMap="replys"></association>
+        </collection>
+    </resultMap>
+    <resultMap id="replys" type="top.yoga.lol.tweet.entity.Reply">
+        <result column="replyId" jdbcType="INTEGER" property="replyId"></result>
+        <result column="replyUserId" jdbcType="INTEGER" property="replyUserId"></result>
+        <result column="replyName" jdbcType="VARCHAR" property="replyName"></result>
+        <result column="replyUserBid" jdbcType="INTEGER" property="replyUserBid"></result>
+        <result column="replyBName" jdbcType="VARCHAR" property="replyBName"></result>
+        <result column="replyContent" jdbcType="VARCHAR" property="replyContent"></result>
     </resultMap>
     <insert id="insertTweet" parameterType="top.yoga.lol.tweet.vo.TweetReq">
         insert into tweet(`title`,`content`,`user_id`)
@@ -31,7 +61,7 @@
         LEFT JOIN tumbups tu ON tu.tweet_id = t.id and t.status_flag=1 and
         (tu.status_flag=1 or tu.status_flag is null)
         LEFT JOIN `user` u ON u.id = tu.user_id and u.status_flag=1
-        where u.status_flag=1 and t.status_flag=1
+        where t.status_flag=1
         <if test="userId !=null">
             and t.user_id = #{userId}
         </if>
@@ -57,4 +87,42 @@
         update tweet set status_flag=0
         where id =#{tweetId} and user_id =#{userId}
     </update>
+
+    <select id="getTweetDetailsById" parameterType="java.lang.Integer" resultMap="tweetDetails">
+        SELECT
+        t.id tweetId,
+        t.title tweetTitle,
+        t.content tweetContent,
+        t.user_id tweetUserId,
+        t.user_name userName,
+        t.gmt_create releaseTime,
+        c.id commentId,
+        c.user_id commentUserId,
+        c.user_name commentUserName,
+        c.user_bid commentUserBid,
+        c.user_bname commentUserBName,
+        c.content commentContent,
+        r.id replyId,
+        r.user_id replyUserId,
+        r.user_name replyName,
+        r.user_bid replyUserBid,
+        r.user_bname replyBName,
+        r.content replyContent,
+        tu.id tumbupsId,
+        tu.user_id tumbupsUserId,
+        tu.user_name tumbupsUserName
+        FROM
+        `comment` c
+        LEFT JOIN `tweet` t ON c.tweet_id = t.id
+        LEFT JOIN `reply` r ON r.comment_id = c.id
+        LEFT JOIN tumbups tu ON tu.tweet_id = t.id
+        WHERE
+        t.status_flag = 1
+        AND ( c.status_flag = 1 OR c.status_flag IS NULL )
+        AND ( r.status_flag = 1 OR r.status_flag IS NULL )
+        AND ( tu.status_flag = 1 OR tu.status_flag IS NULL )
+        AND c.tweet_id = #{tweetId}
+        ORDER BY
+        r.gmt_create
+    </select>
 </mapper>

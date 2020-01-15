@@ -66,7 +66,7 @@ public class TweetService {
         if (!tweetReq.getUserId().equals(user.getId())) {
             throw new AppException("当前账号不一致");
         }
-        Tweet tweet = new Tweet();
+        tweetReq.setUserName(user.getUserName());
         tweetDao.insertTweet(tweetReq);
     }
 
@@ -150,8 +150,14 @@ public class TweetService {
         if (null == tweet) {
             throw new AppException("帖子不存在");
         }
+        //评论者
+        User user1 = userDao.getUserById(commentReq.getUserId());
+        //被评论者
+        User user2 = userDao.getUserById(commentReq.getUserBid());
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentReq, comment);
+        comment.setUserName(user1.getUserName());
+        comment.setUserBName(user2.getUserName());
         log.info("当前插入的评论信息为：{}", comment);
         commentDao.insertComment(comment);
     }
@@ -182,7 +188,7 @@ public class TweetService {
         Tumbups tumbups_db = tumbupsDao.getTumbupsById(tweetId, userId);
         //查询数据为空，进行插入
         if (null == tumbups_db) {
-            int result = tumbupsDao.inseretTumbupsById(tweetId, userId);
+            int result = tumbupsDao.inseretTumbupsById(tweetId, userId, user.getUserName());
             if (result > 0) {
                 return "点赞成功";
             } else {
@@ -221,6 +227,12 @@ public class TweetService {
         if (null == comment) {
             throw new AppException("该帖子没有任何评论无法进行回复");
         }
+        //回复者信息
+        User user1 = userDao.getUserById(req.getUserId());
+        //被回复者信息
+        User user2 = userDao.getUserById(req.getUserBid());
+        req.setUserName(user1.getUserName());
+        req.setUserBName(user2.getUserName());
         replyDao.insertReply(req);
     }
 
@@ -233,29 +245,15 @@ public class TweetService {
      */
     public TweetDetailsVo getTweetDetails(Integer tweetId) {
         log.info("帖子id为：{}", tweetId);
-        TweetDetailsVo tweetDetailsVo = new TweetDetailsVo();
         //通过帖子id查询帖子是否存在
         Tweet tweet_db = tweetDao.getTweetByIds(tweetId);
         if (null == tweet_db) {
             throw new AppException("没有id为" + tweetId + "的帖子");
         }
-        //通过帖子id查询点赞信息
-        List<Tumbups> tumbupsList = tumbupsDao.getTumbupsListById(tweetId);
-        tweetDetailsVo.setTweetId(tweet_db.getTweetId());
-        tweetDetailsVo.setTitle(tweet_db.getTitle());
-        tweetDetailsVo.setContent(tweet_db.getContent());
-        tweetDetailsVo.setUserId(tweet_db.getTweetUserId());
-        tweetDetailsVo.setName(tweet_db.getTweetUserName());
-        tweetDetailsVo.setTumbupsList(tumbupsList);
-        tweetDetailsVo.setNum(tumbupsList.size());
-        //通过帖子id查询其下的评论id
-        List<Integer> commentIds = commentDao.selectCommentId(tweetId);
-        if (CollectionUtils.isEmpty(commentIds)) {
-            log.info("帖子详情信息：{}", tweetDetailsVo);
-            return tweetDetailsVo;
-        }
-        //查询评论及其回复
-        return null;
+        TweetDetailsVo tweetDetailsVo = tweetDao.getTweetDetailsById(tweetId);
+        tweetDetailsVo.setNum(tweetDetailsVo.getTumbupsList().size());
+        log.info("查询帖子详情信息：{}", tweetDetailsVo);
+        return tweetDetailsVo;
     }
 
     /**
@@ -292,6 +290,29 @@ public class TweetService {
         int result = tweetDao.delTweet(tweetId, userId);
         if (result <= 0) {
             throw new AppException("删除帖子失败");
+        }
+    }
+
+    /**
+     * 删除评论
+     *
+     * @param tweetId   帖子id
+     * @param commentId 评论id
+     * @param userId    评论者id
+     */
+    public void delComment(Integer tweetId, Integer commentId, Integer userId) {
+        User user = UserUtils.getUserInfo();
+        if (userId != user.getId()) {
+            throw new AppException("用户不一致无法删除评论");
+        }
+        //查询这条评论是否存在
+        Comment comment = commentDao.selectByIds(tweetId, commentId);
+        if (comment == null) {
+            throw new AppException("该条评论不存在");
+        }
+        int result = commentDao.delComment(tweetId, commentId, userId);
+        if (result <= 0) {
+            throw new AppException("删除评论失败");
         }
     }
 }

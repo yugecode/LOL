@@ -14,18 +14,15 @@ import java.util.List;
  */
 @Mapper
 public interface CommentDao {
-    /**
-     * 插入评论
-     *
-     * @param comment
-     * @return {@link int}
-     * @author luojiayu
-     * @date 2020/1/9
-     */
+
     int insertComment(Comment comment);
 
     Comment selectByIds(@Param("tweetId") Integer tweetId,
                         @Param("commentId") Integer commentId);
 
     List<Integer> selectCommentId(Integer tweetId);
+
+    int delComment(@Param("tweetId") Integer tweetId,
+                   @Param("commentId") Integer commentId,
+                   @Param("userId") Integer userId);
 }

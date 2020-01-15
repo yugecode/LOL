@@ -29,22 +29,22 @@ public class TweetDetailsVo {
     /**
      * 帖子标题
      */
-    private String title;
+    private String tweetTitle;
 
     /**
      * 帖子内容
      */
-    private String content;
+    private String tweetContent;
 
     /**
      * 发帖人id
      */
-    private Integer userId;
+    private Integer tweetUserId;
 
     /**
      * 发帖人姓名
      */
-    private String name;
+    private String userName;
 
     /**
      * 评论及其回复
@@ -55,6 +55,11 @@ public class TweetDetailsVo {
      * 点赞人列表
      */
     private List<Tumbups> tumbupsList;
+
+    /**
+     * 帖子发布时间
+     */
+    private String releaseTime;
 
     /**
      * 点赞数量

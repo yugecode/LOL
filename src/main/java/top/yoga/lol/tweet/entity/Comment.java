@@ -33,9 +33,19 @@ public class Comment {
     private Integer userId;
 
     /**
+     * 评论者名字
+     */
+    private String userName;
+
+    /**
      * 被评论者id
      */
     private Integer userBid;
+
+    /**
+     * 被评论者名字
+     */
+    private String userBName;
 
     /**
      * 用户评论

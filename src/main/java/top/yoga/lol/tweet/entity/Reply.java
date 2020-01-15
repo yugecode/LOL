@@ -18,27 +18,12 @@ public class Reply {
     /**
      * 回复表id
      */
-    private Integer id;
-
-    /**
-     * 回复表父id
-     */
-    private Integer pid;
-
-    /**
-     * 帖子id
-     */
-    private Integer tweetId;
-
-    /**
-     * 评论id
-     */
-    private Integer commentId;
+    private Integer replyId;
 
     /**
      * 回复者id
      */
-    private Integer userId;
+    private Integer replyUserId;
 
     /**
      * 回复者名字
@@ -48,7 +33,7 @@ public class Reply {
     /**
      * 被回复者id
      */
-    private Integer userBid;
+    private Integer replyUserBid;
 
     /**
      * 被回复者名字
@@ -58,5 +43,5 @@ public class Reply {
     /**
      * 回复内容
      */
-    private String content;
+    private String replyContent;
 }

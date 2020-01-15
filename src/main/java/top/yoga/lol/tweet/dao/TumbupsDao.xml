@@ -14,7 +14,7 @@
     </select>
 
     <insert id="inseretTumbupsById">
-        insert into tumbups(`tweet_id`,`user_id`) values(#{tweetId},#{userId})
+        insert into tumbups(`tweet_id`,`user_id`,`user_name`) values(#{tweetId},#{userId},#{userName})
     </insert>
 
     <update id="tumbupsToNot">

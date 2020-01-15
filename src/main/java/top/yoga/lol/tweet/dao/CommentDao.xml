@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yoga.lol.tweet.dao.CommentDao">
     <insert id="insertComment" parameterType="top.yoga.lol.tweet.entity.Comment">
-        insert into comment(`tweet_id`,`user_id`,`user_bid`,`content`)
-        values (#{tweetId},#{userId},#{userBid},#{content})
+        insert into comment(`tweet_id`,`user_id`,`user_name`,`user_bid`,`user_bname`,`content`)
+        values (#{tweetId},#{userId},#{userName},#{userBid},#{userBName},#{content})
     </insert>
 
     <select id="selectByIds" resultType="top.yoga.lol.tweet.entity.Comment">
@@ -15,4 +15,8 @@
         left join tweet t on t.id=c.tweet_id
         where c.tweet_id=#{tweetId}
     </select>
+    <update id="delComment">
+        update comment set status_flag=0
+        where tweet_id = #{tweetId} and id=#{commentId} and user_id=#{userId}
+    </update>
 </mapper>

@@ -3,6 +3,7 @@ package top.yoga.lol.tweet.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.yoga.lol.tweet.entity.Tweet;
+import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
 
@@ -30,4 +31,6 @@ public interface TweetDao {
 
     int delTweet(@Param("tweetId") Integer tweetId,
                  @Param("userId") Integer userId);
+
+    TweetDetailsVo getTweetDetailsById(Integer tweetId);
 }

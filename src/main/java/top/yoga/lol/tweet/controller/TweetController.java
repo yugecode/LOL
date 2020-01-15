@@ -151,4 +151,20 @@ public class TweetController {
         return ResponseTemplate.ok();
     }
 
+    /**
+     * 删除自己的评论
+     *
+     * @param tweetId
+     * @param commentId
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/delComment", method = RequestMethod.DELETE)
+    public ResponseTemplate delComment(@RequestParam("tweetId") Integer tweetId,
+                                     @RequestParam("commentId") Integer commentId,
+                                     @RequestParam("userId") Integer userId) {
+        tweetService.delComment(tweetId, commentId, userId);
+        return ResponseTemplate.ok();
+    }
+
 }
