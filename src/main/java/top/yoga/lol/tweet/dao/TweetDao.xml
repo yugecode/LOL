@@ -123,6 +123,6 @@
         AND ( tu.status_flag = 1 OR tu.status_flag IS NULL )
         AND c.tweet_id = #{tweetId}
         ORDER BY
-        r.gmt_create
+        r.gmt_create desc
     </select>
 </mapper>
