@@ -13,4 +13,12 @@
         insert into reply(`tweet_id`,`comment_id`,`user_id`,`user_name`,`user_bid`,`user_bname`,`content`)
         values(#{tweetId},#{commentId},#{userId},#{userName},#{userBid},#{userBName},#{content})
     </insert>
+    <update id="delReply">
+        update reply set status_flag=0
+        where tweet_id=#{tweetId}
+        and comment_id=#{commentId}
+        and user_id=#{userId}
+        and id=#{replyId}
+        and status_flag=1
+    </update>
 </mapper>

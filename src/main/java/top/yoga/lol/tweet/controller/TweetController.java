@@ -131,7 +131,7 @@ public class TweetController {
      * @author luojiayu
      * @date 2020/1/15
      */
-    @RequestMapping(value = "/modified", method = RequestMethod.POST)
+    @RequestMapping(value = "/modified", method = RequestMethod.PUT)
     public ResponseTemplate modifiedTweet(@Validated @RequestBody TweetModifiedReq req) {
         tweetService.modifiedTweet(req);
         return ResponseTemplate.ok();
@@ -161,9 +161,26 @@ public class TweetController {
      */
     @RequestMapping(value = "/delComment", method = RequestMethod.DELETE)
     public ResponseTemplate delComment(@RequestParam("tweetId") Integer tweetId,
-                                     @RequestParam("commentId") Integer commentId,
-                                     @RequestParam("userId") Integer userId) {
+                                       @RequestParam("commentId") Integer commentId,
+                                       @RequestParam("userId") Integer userId) {
         tweetService.delComment(tweetId, commentId, userId);
+        return ResponseTemplate.ok();
+    }
+
+    /**
+     * 删除自己的回复
+     *
+     * @param tweetId
+     * @param commentId
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/delReply", method = RequestMethod.DELETE)
+    public ResponseTemplate delReply(@RequestParam("tweetId") Integer tweetId,
+                                     @RequestParam("commentId") Integer commentId,
+                                     @RequestParam("replyId")Integer replyId,
+                                     @RequestParam("userId") Integer userId) {
+        tweetService.delReply(tweetId, commentId, replyId,userId);
         return ResponseTemplate.ok();
     }
 

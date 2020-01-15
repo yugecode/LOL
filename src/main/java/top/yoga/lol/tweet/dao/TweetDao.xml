@@ -81,11 +81,11 @@
     </select>
     <update id="modifiedTweet" parameterType="top.yoga.lol.tweet.vo.TweetModifiedReq">
         update tweet set title = #{title},content=#{content}
-        where id =#{id} and user_id =#{userId}
+        where id =#{id} and user_id =#{userId} and status_flag=1
     </update>
     <update id="delTweet">
         update tweet set status_flag=0
-        where id =#{tweetId} and user_id =#{userId}
+        where id =#{tweetId} and user_id =#{userId} and status_flag=1
     </update>
 
     <select id="getTweetDetailsById" parameterType="java.lang.Integer" resultMap="tweetDetails">
@@ -123,6 +123,6 @@
         AND ( tu.status_flag = 1 OR tu.status_flag IS NULL )
         AND c.tweet_id = #{tweetId}
         ORDER BY
-        r.gmt_create desc
+        r.gmt_create asc
     </select>
 </mapper>

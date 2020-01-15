@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.page.PageQueryBean;
 import top.yoga.lol.tweet.dao.CommentDao;
@@ -303,7 +304,7 @@ public class TweetService {
     public void delComment(Integer tweetId, Integer commentId, Integer userId) {
         User user = UserUtils.getUserInfo();
         if (userId != user.getId()) {
-            throw new AppException("用户不一致无法删除评论");
+            throw new AppException("用户不一致无法删除评论信息");
         }
         //查询这条评论是否存在
         Comment comment = commentDao.selectByIds(tweetId, commentId);
@@ -313,6 +314,28 @@ public class TweetService {
         int result = commentDao.delComment(tweetId, commentId, userId);
         if (result <= 0) {
             throw new AppException("删除评论失败");
+        }
+    }
+
+    /**
+     * 删除回复
+     *
+     * @param tweetId   帖子id
+     * @param commentId 评论id
+     * @param replyId   回复id
+     * @param userId    当前用户id
+     */
+    public void delReply(Integer tweetId,
+                         Integer commentId,
+                         Integer replyId,
+                         Integer userId) {
+        User user = UserUtils.getUserInfo();
+        if (userId != user.getId()) {
+            throw new AppException("用户不一致无法删除回复信息");
+        }
+        int result = replyDao.delReply(tweetId, commentId, replyId, userId);
+        if (result <= 0) {
+            throw new AppException("删除回复失败");
         }
     }
 }

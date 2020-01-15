@@ -27,4 +27,9 @@ public interface ReplyDao {
                             @Param("userBid") Integer userBid);
 
     int insertReply(ReplyReq req);
+
+    int delReply(@Param("tweetId") Integer tweetId,
+                 @Param("commentId") Integer commentId,
+                 @Param("replyId") Integer replyId,
+                 @Param("userId") Integer userId);
 }
