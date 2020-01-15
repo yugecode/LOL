@@ -10,21 +10,19 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * 发帖请求
- *
  * @author luojiayu
- * @date 2020/1/8 17:52
+ * @date 2020/1/14 18:10
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TweetReq {
+public class TweetModifiedReq {
 
     /**
      * 帖子id
      */
-    @JsonIgnore
+    @NotNull(message = "帖子id不能为空")
     private Integer id;
 
     /**

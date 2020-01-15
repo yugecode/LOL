@@ -13,6 +13,7 @@ import top.yoga.lol.tweet.vo.CommentReq;
 import top.yoga.lol.tweet.vo.ReplyReq;
 import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
+import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
 
 /**
@@ -118,7 +119,36 @@ public class TweetController {
      * @date 2020/1/13
      */
     @RequestMapping(value = "/getDetails", method = RequestMethod.GET)
-    public ResponseTemplate<TweetDetailsVo> getTweetDetails(Integer tweetId) {
+    public ResponseTemplate<TweetDetailsVo> getTweetDetails(@RequestParam("tweetId") Integer tweetId) {
         return ResponseTemplate.ok(tweetService.getTweetDetails(tweetId));
     }
+
+    /**
+     * 修改帖子信息
+     *
+     * @param req
+     * @return
+     * @author luojiayu
+     * @date 2020/1/15
+     */
+    @RequestMapping(value = "/modified", method = RequestMethod.POST)
+    public ResponseTemplate modifiedTweet(@Validated @RequestBody TweetModifiedReq req) {
+        tweetService.modifiedTweet(req);
+        return ResponseTemplate.ok();
+    }
+
+    /**
+     * 删除自己发布的帖子
+     *
+     * @param tweetId
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
+    public ResponseTemplate delTweet(@RequestParam("tweetId") Integer tweetId,
+                                     @RequestParam("userId") Integer userId) {
+        tweetService.delTweet(tweetId, userId);
+        return ResponseTemplate.ok();
+    }
+
 }

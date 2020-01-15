@@ -19,7 +19,7 @@
     </insert>
     <select id="getListTweet" parameterType="java.lang.Integer" resultMap="tweetList">
         SELECT
-        t.gmt_create AS releaseTime,
+        t.gmt_modified AS releaseTime,
         t.id AS tweetId,
         t.title,
         t.content,
@@ -31,12 +31,12 @@
         LEFT JOIN tumbups tu ON tu.tweet_id = t.id and t.status_flag=1 and
         (tu.status_flag=1 or tu.status_flag is null)
         LEFT JOIN `user` u ON u.id = tu.user_id and u.status_flag=1
-        where 1=1
+        where u.status_flag=1 and t.status_flag=1
         <if test="userId !=null">
             and t.user_id = #{userId}
         </if>
         ORDER BY
-        t.gmt_create DESC
+        t.gmt_modified DESC
     </select>
 
     <select id="getTweetByIds" parameterType="java.lang.Integer" resultType="top.yoga.lol.tweet.entity.Tweet">
@@ -44,4 +44,17 @@
         from tweet t left join `user` u on u.id=t.user_id
         where t.id =#{tweetId} and t.status_flag=1 and u.status_flag=1
     </select>
+    <select id="getTweetById" parameterType="java.lang.Integer" resultType="top.yoga.lol.tweet.entity.Tweet">
+        select t.id as tweetId,t.title,t.content,t.user_id as tweetUserId,u.user_name as tweetUserName
+        from tweet t left join `user` u on u.id=t.user_id
+        where t.id =#{tweetId} and t.status_flag=1 and u.status_flag=1 and t.user_id=#{userId}
+    </select>
+    <update id="modifiedTweet" parameterType="top.yoga.lol.tweet.vo.TweetModifiedReq">
+        update tweet set title = #{title},content=#{content}
+        where id =#{id} and user_id =#{userId}
+    </update>
+    <update id="delTweet">
+        update tweet set status_flag=0
+        where id =#{tweetId} and user_id =#{userId}
+    </update>
 </mapper>

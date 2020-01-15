@@ -21,6 +21,7 @@ import top.yoga.lol.tweet.vo.CommentReq;
 import top.yoga.lol.tweet.vo.ReplyReq;
 import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
+import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
 import top.yoga.lol.user.dao.UserDao;
 import top.yoga.lol.user.entity.User;
@@ -253,6 +254,44 @@ public class TweetService {
             log.info("帖子详情信息：{}", tweetDetailsVo);
             return tweetDetailsVo;
         }
+        //查询评论及其回复
         return null;
+    }
+
+    /**
+     * 修改帖子信息
+     *
+     * @param req
+     */
+    public void modifiedTweet(TweetModifiedReq req) {
+        Tweet tweet_db = tweetDao.getTweetByIds(req.getId());
+        if (null == tweet_db) {
+            throw new AppException("不存在id为" + req.getId() + "的帖子");
+        }
+        int reslut = tweetDao.modifiedTweet(req);
+        if (reslut <= 0) {
+            throw new AppException("修改帖子信息失败");
+        }
+    }
+
+    /**
+     * 删除帖子信息
+     *
+     * @param tweetId
+     * @param userId
+     */
+    public void delTweet(Integer tweetId, Integer userId) {
+        User user = UserUtils.getUserInfo();
+        if (!userId.equals(user.getId())) {
+            throw new AppException("当前用户不一致，无法进行帖子的删除");
+        }
+        Tweet tweet_db = tweetDao.getTweetById(tweetId, userId);
+        if (null == tweet_db) {
+            throw new AppException("该用户不存在id为：" + tweetId + "的帖子");
+        }
+        int result = tweetDao.delTweet(tweetId, userId);
+        if (result <= 0) {
+            throw new AppException("删除帖子失败");
+        }
     }
 }
