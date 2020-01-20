@@ -28,7 +28,7 @@ public class GetInfoUtils {
         try {
             Process process = Runtime.getRuntime().exec(arguments);
             in = new BufferedReader(
-                new InputStreamReader(process.getInputStream(), "GBK"));
+                    new InputStreamReader(process.getInputStream(), "GBK"));
             String line;
             StringBuffer stringBuffer = new StringBuffer();
             while ((line = in.readLine()) != null) {

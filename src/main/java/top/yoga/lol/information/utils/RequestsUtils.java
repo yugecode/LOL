@@ -33,9 +33,9 @@ public class RequestsUtils {
         log.info("访问路径为:{}", url);
         HttpEntity httpEntity = new HttpEntity(header);
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-            url, HttpMethod.GET, httpEntity,
-            new ParameterizedTypeReference<String>() {
-            });
+                url, HttpMethod.GET, httpEntity,
+                new ParameterizedTypeReference<String>() {
+                });
         String jsonStr = "";
         if (HttpStatus.OK.equals(responseEntity.getStatusCode())) {
             jsonStr = responseEntity.getBody();

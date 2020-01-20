@@ -20,12 +20,12 @@ public interface TweetDao {
 
     int insertTweet(TweetReq tweet);
 
-    List<Tweet> getListTweet(@Param("userId")Integer userId);
+    List<Tweet> getListTweet(@Param("userId") Integer userId);
 
     Tweet getTweetByIds(@Param("tweetId") Integer tweetId);
 
     Tweet getTweetById(@Param("tweetId") Integer tweetId,
-                        @Param("userId") Integer userId);
+                       @Param("userId") Integer userId);
 
     int modifiedTweet(TweetModifiedReq tweetModifiedReq);
 

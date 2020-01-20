@@ -22,7 +22,7 @@
     </select>
 
     <!--更新用户信息-->
-    <update id="modifyUser" parameterType="top.yoga.lol.user.entity.User" >
+    <update id="modifyUser" parameterType="top.yoga.lol.user.entity.User">
         update `user` set
         user_name = #{userName},
         password = #{password},

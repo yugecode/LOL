@@ -19,19 +19,19 @@ public class SwaggerConfig {
     @Bean
     public Docket produceApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-            .apiInfo(apiInfo())
-            .select()
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build();
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
     }
 
     // Describe your apis
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("毕业设计")
-            .description("毕业设计LOL助手app")
-            .version("1.0-SNAPSHOT")
-            .build();
+                .title("毕业设计")
+                .description("毕业设计LOL助手app")
+                .version("1.0-SNAPSHOT")
+                .build();
     }
 }

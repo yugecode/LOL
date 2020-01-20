@@ -53,7 +53,7 @@ public class PageQueryBean<T> {
     public final Integer getStartRow() {
         if (startRow == null) {
             startRow = (pageNum == null || pageNum == 0 ? 0 : (pageNum - 1) * getPageSize()) - (subRows == null ? 0 :
-                subRows);
+                    subRows);
         }
         return startRow;
     }
@@ -117,9 +117,9 @@ public class PageQueryBean<T> {
     @Override
     public String toString() {
         return "PageQueryBean [pageNum=" + pageNum + ", pageSize="
-            + pageSize + ", totalRows=" + totalRows + ", startRow="
-            + startRow + ", totalPage=" + totalPage + ", items=" + items
-            + ", subRows=" + subRows + "]";
+                + pageSize + ", totalRows=" + totalRows + ", startRow="
+                + startRow + ", totalPage=" + totalPage + ", items=" + items
+                + ", subRows=" + subRows + "]";
     }
 
 }

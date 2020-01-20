@@ -178,9 +178,9 @@ public class TweetController {
     @RequestMapping(value = "/delReply", method = RequestMethod.DELETE)
     public ResponseTemplate delReply(@RequestParam("tweetId") Integer tweetId,
                                      @RequestParam("commentId") Integer commentId,
-                                     @RequestParam("replyId")Integer replyId,
+                                     @RequestParam("replyId") Integer replyId,
                                      @RequestParam("userId") Integer userId) {
-        tweetService.delReply(tweetId, commentId, replyId,userId);
+        tweetService.delReply(tweetId, commentId, replyId, userId);
         return ResponseTemplate.ok();
     }
 

@@ -39,9 +39,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(AppException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code(ex.getErrorCode())
-            .msg(ex.getMessage())
-            .build();
+                .code(ex.getErrorCode())
+                .msg(ex.getMessage())
+                .build();
     }
 
     /**
@@ -57,9 +57,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(AuthenticationException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code("403")
-            .msg("请登录")
-            .build();
+                .code("403")
+                .msg("请登录")
+                .build();
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
@@ -67,10 +67,11 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(UnauthenticatedException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code("403")
-            .msg("请登录")
-            .build();
+                .code("403")
+                .msg("请登录")
+                .build();
     }
+
     /**
      * 处理参数校验异常错误
      *
@@ -82,9 +83,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(MethodArgumentNotValidException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code(ResponseTemplate.APP_EXCEPTION)
-            .msg(bindResultErrors(ex.getBindingResult()))
-            .build();
+                .code(ResponseTemplate.APP_EXCEPTION)
+                .msg(bindResultErrors(ex.getBindingResult()))
+                .build();
     }
 
     /**
@@ -98,9 +99,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(BindException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code(ResponseTemplate.APP_EXCEPTION)
-            .msg(bindResultErrors(ex.getBindingResult()))
-            .build();
+                .code(ResponseTemplate.APP_EXCEPTION)
+                .msg(bindResultErrors(ex.getBindingResult()))
+                .build();
     }
 
     /**
@@ -121,9 +122,9 @@ public class CommonExceptionHandler {
             sb.deleteCharAt(sb.length() - 1);
         }
         return ResponseTemplate.builder()
-            .code(ResponseTemplate.APP_EXCEPTION)
-            .msg(sb.toString())
-            .build();
+                .code(ResponseTemplate.APP_EXCEPTION)
+                .msg(sb.toString())
+                .build();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -131,9 +132,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate validateHandler(IllegalArgumentException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code(ResponseTemplate.APP_EXCEPTION)
-            .msg(ex.getMessage())
-            .build();
+                .code(ResponseTemplate.APP_EXCEPTION)
+                .msg(ex.getMessage())
+                .build();
     }
 
     /**
@@ -174,9 +175,9 @@ public class CommonExceptionHandler {
     public ResponseTemplate exceptionHandle(Exception ex) {
         log.error(ex.getMessage(), ex);
         return ResponseTemplate.builder()
-            .code(ResponseTemplate.UNKNOWN_EXCEPTION)
-            .msg("内部错误,请联系管理员!")
-            .build();
+                .code(ResponseTemplate.UNKNOWN_EXCEPTION)
+                .msg("内部错误,请联系管理员!")
+                .build();
     }
 
 }

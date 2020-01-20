@@ -19,7 +19,7 @@ public class RestTemplateConfig {
     }
 
     @Bean
-    public AsyncRestTemplate  asyncRestTemplate(ClientHttpRequestFactory factory) {
+    public AsyncRestTemplate asyncRestTemplate(ClientHttpRequestFactory factory) {
         return new AsyncRestTemplate();
     }
 

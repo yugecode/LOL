@@ -42,7 +42,7 @@ public interface TumbupsDao {
      */
     int inseretTumbupsById(@Param("tweetId") Integer tweetId,
                            @Param("userId") Integer userId,
-                           @Param("userName")String userName);
+                           @Param("userName") String userName);
 
     /**
      * 点赞到非点赞
