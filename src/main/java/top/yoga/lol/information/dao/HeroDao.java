@@ -15,4 +15,6 @@ public interface HeroDao {
     int bacthHeros(List<Heros> list);
 
     List<Heros> heros();
+
+    int updateHeros(Heros heros);
 }

@@ -12,8 +12,10 @@ import top.yoga.lol.information.entity.Heros;
 import top.yoga.lol.information.utils.GetInfoUtils;
 import top.yoga.lol.information.utils.RequestsUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 英雄信息
@@ -44,8 +46,18 @@ public class HerosService {
         JSONObject jsonObject = requestsUtils.doGet("http://" + address + ":" + port + "/ParseHeros");
         System.out.println(jsonObject.getString("hero"));
         List<Heros> list = JSONArray.parseArray(jsonObject.getString("hero"), Heros.class);
-        heroDao.bacthHeros(list);
+//        heroDao.bacthHeros(list);
         System.out.println(list);
+        for (Heros hero : list) {
+            String str = null;
+            for (String s : hero.getRolesList()) {
+                str = s + "," + str;
+            }
+            Heros heros= new Heros();
+            heros.setHeroId(hero.getHeroId());
+            heros.setRoles(str);
+            heroDao.updateHeros(heros);
+        }
         long e = System.currentTimeMillis();
         System.out.println("时间：" + (e - l));
         return jsonObject;
@@ -53,10 +65,18 @@ public class HerosService {
 
     /**
      * 获取英雄列表
+     *
      * @return
      */
     public List<Heros> getHeros() {
-        return heroDao.heros();
+        List<Heros> heros = heroDao.heros();
+        heros.stream().map(data->{
+            int index = data.getRoles().indexOf(",null");
+            data.setRolesList(Arrays.asList(data.getRoles().substring(0,index).split(",")));
+            data.setRoles(data.getRoles().substring(0,index));
+            return data;
+        }).collect(Collectors.toList());
+        return heros;
     }
 
     /**

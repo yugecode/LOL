@@ -61,4 +61,4 @@ spring:
 
 #请求python接口的地址和端口
 python-address: localhost
-python-port: 8888
+python-port: 5000

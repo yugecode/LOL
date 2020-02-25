@@ -17,7 +17,11 @@
     </insert>
 
     <select id="heros" resultType="top.yoga.lol.information.entity.Heros">
-        select id heroId,name,title,icon_img from heros;
+        select id heroId,name,title,icon_img,roles from heros;
     </select>
+
+    <update id="updateHeros" parameterType="top.yoga.lol.information.entity.Heros">
+        update heros set roles = #{roles} where id = #{heroId}
+    </update>
 
 </mapper>

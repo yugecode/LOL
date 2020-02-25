@@ -40,7 +40,7 @@ public class InformationController {
      * @return
      */
     @RequestMapping(value = "/heros/getList", method = RequestMethod.GET)
-    public ResponseTemplate<List<Heros>> getHeros() {
+    public ResponseTemplate getHeros() {
         return ResponseTemplate.ok(herosService.getHeros());
     }
 

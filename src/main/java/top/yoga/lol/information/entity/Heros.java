@@ -1,9 +1,12 @@
 package top.yoga.lol.information.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author luojiayu
@@ -21,4 +24,8 @@ public class Heros {
     private String title;
 
     private String iconImg;
+
+    private List<String> rolesList;
+
+    private String roles;
 }
