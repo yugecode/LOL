@@ -1,10 +1,12 @@
 package top.yoga.lol.tweet.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +58,8 @@ public class Tweet {
     /**
      * 帖子发布时间
      */
-    private String releaseTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "GMT+8")
+    private Date releaseTime;
 
 
 }

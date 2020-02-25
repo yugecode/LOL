@@ -34,7 +34,11 @@ public class HerosService {
      * @return
      */
     public JSONObject getHeros() {
-        return requestsUtils.doGet("http://" + address + ":" + port + "/ParseHeros");
+        long l = System.currentTimeMillis();
+        JSONObject jsonObject = requestsUtils.doGet("http://" + address + ":" + port + "/ParseHeros");
+        long e = System.currentTimeMillis();
+        System.out.println("时间：" + (e - l));
+        return jsonObject;
     }
 
     /**

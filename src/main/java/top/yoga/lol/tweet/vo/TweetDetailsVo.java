@@ -1,5 +1,6 @@
 package top.yoga.lol.tweet.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import top.yoga.lol.tweet.entity.CommentReply;
 import top.yoga.lol.tweet.entity.Tumbups;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,7 +61,8 @@ public class TweetDetailsVo {
     /**
      * 帖子发布时间
      */
-    private String releaseTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "GMT+8")
+    private Date releaseTime;
 
     /**
      * 点赞数量
