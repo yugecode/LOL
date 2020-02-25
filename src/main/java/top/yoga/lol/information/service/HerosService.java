@@ -1,14 +1,18 @@
 package top.yoga.lol.information.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.yoga.lol.common.exception.AppException;
+import top.yoga.lol.information.dao.HeroDao;
+import top.yoga.lol.information.entity.Heros;
 import top.yoga.lol.information.utils.GetInfoUtils;
 import top.yoga.lol.information.utils.RequestsUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +26,8 @@ public class HerosService {
 
     @Autowired
     private RequestsUtils requestsUtils;
+    @Autowired
+    private HeroDao heroDao;
 
     @Value("${python-address}")
     private String address;
@@ -29,16 +35,28 @@ public class HerosService {
     private String port;
 
     /**
-     * 获取英雄信息
+     * 获取英雄信息并存入数据库
      *
      * @return
      */
-    public JSONObject getHeros() {
+    public JSONObject saveHeros() {
         long l = System.currentTimeMillis();
         JSONObject jsonObject = requestsUtils.doGet("http://" + address + ":" + port + "/ParseHeros");
+        System.out.println(jsonObject.getString("hero"));
+        List<Heros> list = JSONArray.parseArray(jsonObject.getString("hero"), Heros.class);
+        heroDao.bacthHeros(list);
+        System.out.println(list);
         long e = System.currentTimeMillis();
         System.out.println("时间：" + (e - l));
         return jsonObject;
+    }
+
+    /**
+     * 获取英雄列表
+     * @return
+     */
+    public List<Heros> getHeros() {
+        return heroDao.heros();
     }
 
     /**

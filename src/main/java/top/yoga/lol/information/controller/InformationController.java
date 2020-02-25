@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.yoga.lol.common.ResponseTemplate;
 import top.yoga.lol.common.exception.CommonExceptionHandler;
+import top.yoga.lol.information.entity.Heros;
 import top.yoga.lol.information.entity.Spells;
 import top.yoga.lol.information.service.HerosService;
 import top.yoga.lol.information.service.ItemsService;
@@ -39,7 +40,7 @@ public class InformationController {
      * @return
      */
     @RequestMapping(value = "/heros/getList", method = RequestMethod.GET)
-    public ResponseTemplate<JSONObject> getHeros() {
+    public ResponseTemplate<List<Heros>> getHeros() {
         return ResponseTemplate.ok(herosService.getHeros());
     }
 

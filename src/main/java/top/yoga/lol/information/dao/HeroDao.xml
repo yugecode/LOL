@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yoga.lol.information.dao.HeroDao">
+
+    <insert id="bacthHeros">
+        insert into heros
+        (id,name,title,icon_img)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.heroId},
+            #{item.name},
+            #{item.title},
+            #{item.iconImg}
+            )
+        </foreach>
+    </insert>
+
+    <select id="heros" resultType="top.yoga.lol.information.entity.Heros">
+        select id heroId,name,title,icon_img from heros;
+    </select>
+
+</mapper>
