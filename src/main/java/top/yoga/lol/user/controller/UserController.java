@@ -66,8 +66,8 @@ public class UserController {
      * @date 2020/1/7
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseTemplate<UserVo> login(@RequestBody @Validated LoginReq loginReq, HttpServletRequest request) {
-        return ResponseTemplate.ok(userService.login(loginReq, request));
+    public ResponseTemplate<UserVo> login(@RequestBody @Validated LoginReq loginReq,HttpServletRequest request) {
+        return ResponseTemplate.ok(userService.login(loginReq,request));
     }
 
     /**

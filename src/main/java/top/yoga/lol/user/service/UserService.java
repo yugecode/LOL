@@ -90,13 +90,13 @@ public class UserService {
      * 登录逻辑
      *
      * @param loginReq 登录请求体
-     * @param request
+//     * @param request
      * @return {@link String}
      * @author luojiayu
      * @date 2020/1/7
      */
     @Transactional
-    public UserVo login(LoginReq loginReq, HttpServletRequest request) {
+    public UserVo login(LoginReq loginReq,HttpServletRequest request) {
         log.info("登录请求参数：{}", loginReq);
         User user = userDao.getUserByName(loginReq.getUserName());
         if (null == user) {
