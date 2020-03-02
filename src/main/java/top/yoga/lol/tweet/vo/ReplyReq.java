@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ReplyReq {
 
+    @JsonIgnore
+    private Integer replyId;
     /**
      * 帖子id
      */

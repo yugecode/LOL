@@ -43,9 +43,21 @@
         <result column="replyBName" jdbcType="VARCHAR" property="replyBName"></result>
         <result column="replyContent" jdbcType="VARCHAR" property="replyContent"></result>
     </resultMap>
-    <insert id="insertTweet" parameterType="top.yoga.lol.tweet.vo.TweetReq">
-        insert into tweet(`title`,`content`,`user_id`)
-        values(#{title},#{content},#{userId})
+    <insert id="insertTweet" parameterType="top.yoga.lol.tweet.vo.TweetReq"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="tweetId">
+        INSERT INTO tweet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test='id != null'>id,</if>
+            <if test='title != null'>title,</if>
+            <if test='content != null'>content,</if>
+            <if test='user_id != null'>user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test='id != null'>#{tweetId},</if>
+            <if test='title != null'>#{title},</if>
+            <if test='content != null'>#{content},</if>
+            <if test='user_id != null'>#{user_id},</if>
+        </trim>
     </insert>
     <select id="getListTweet" parameterType="java.lang.Integer" resultMap="tweetList">
         SELECT

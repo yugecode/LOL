@@ -3,10 +3,12 @@ package top.yoga.lol.common.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import top.yoga.lol.tweet.entity.Message;
 import top.yoga.lol.user.dao.UserDao;
 import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.service.UserService;
 
+import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -19,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * websocket服务类
+ * 传递发送消息人的id
  *
  * @author luojiayu
  * @date 2020/2/26 9:24
@@ -92,12 +95,25 @@ public class WebSocketServer {
     }
 
     /**
-     * 实现服务器主动推送
+     * 实现服务器主动推送(文本内容)
      */
     public void sendMessage(String message) {
         try {
             this.session.getBasicRemote().sendText(message);
         } catch (IOException e) {
+            log.error("推送消息失败：{}", e.getMessage());
+        }
+    }
+
+    /**
+     * 实现服务器主动推送（对象）
+     *
+     * @param message
+     */
+    public void sendMessage(Message message) {
+        try {
+            this.session.getBasicRemote().sendObject(message);
+        } catch (IOException | EncodeException e) {
             log.error("推送消息失败：{}", e.getMessage());
         }
     }
@@ -117,13 +133,13 @@ public class WebSocketServer {
     /**
      * 给指定的某给人推送消息
      *
-     * @param message
+     * @param toUserId 发送给哪个用户的
+     * @param message  消息（对象）
      */
-    public void sendToUser(String message) {
-        Integer toId = null;
-        User touser = userDao.getUserById(toId);
+    public void sendToUser(Integer toUserId, Message message) {
         User user = userDao.getUserById(id);
-        webSocketSet.get(toId).sendMessage(message);
+        User touser = userDao.getUserById(toUserId);
+        webSocketSet.get(toUserId).sendMessage(message);
         log.info("当前用户为：{}，推送用户为：{}，推送消息为：{}", user.getUserName(), touser.getUserName(), message);
     }
 

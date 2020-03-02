@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.yoga.lol.tweet.dao.CommentDao">
-    <insert id="insertComment" parameterType="top.yoga.lol.tweet.entity.Comment">
+    <insert id="insertComment" parameterType="top.yoga.lol.tweet.entity.Comment"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="commentId">
         insert into comment(`tweet_id`,`user_id`,`user_name`,`user_bid`,`user_bname`,`content`)
         values (#{tweetId},#{userId},#{userName},#{userBid},#{userBName},#{content})
     </insert>

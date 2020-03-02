@@ -10,11 +10,14 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.common.page.PageQueryBean;
+import top.yoga.lol.common.service.WebSocketServer;
 import top.yoga.lol.tweet.dao.CommentDao;
+import top.yoga.lol.tweet.dao.MessageDao;
 import top.yoga.lol.tweet.dao.ReplyDao;
 import top.yoga.lol.tweet.dao.TumbupsDao;
 import top.yoga.lol.tweet.dao.TweetDao;
 import top.yoga.lol.tweet.entity.Comment;
+import top.yoga.lol.tweet.entity.Message;
 import top.yoga.lol.tweet.entity.Tumbups;
 import top.yoga.lol.tweet.entity.Tweet;
 import top.yoga.lol.tweet.enums.TumupusEnum;
@@ -30,6 +33,7 @@ import top.yoga.lol.user.utils.UserUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 帖子逻辑层
@@ -55,6 +59,12 @@ public class TweetService {
 
     @Autowired
     private ReplyDao replyDao;
+
+    @Autowired
+    private WebSocketServer webSocketServer;
+
+    @Autowired
+    private MessageDao messageDao;
 
     /**
      * 发帖
@@ -95,8 +105,8 @@ public class TweetService {
         }
         log.info("全部帖子信息：{}", tweets);
         return TweetListVo.builder()
-                .tweets(tweets)
-                .build();
+            .tweets(tweets)
+            .build();
     }
 
     /**
@@ -128,8 +138,8 @@ public class TweetService {
         }
         log.info("当前用户信息为：，{}，帖子信息为：{}", user, list);
         return TweetListVo.builder()
-                .tweets(list)
-                .build();
+            .tweets(list)
+            .build();
     }
 
     /**
@@ -139,9 +149,9 @@ public class TweetService {
      * @author luojiayu
      * @date 2020/1/9
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void sendContent(CommentReq commentReq) {
-        log.info("入参：{}", commentReq);
+        log.info("发送评论参数：{}", commentReq);
         User user = UserUtils.getUserInfo();
         if (!commentReq.getUserId().equals(user.getId())) {
             throw new AppException("当前用户id不一致无法进行帖子的评论");
@@ -161,6 +171,18 @@ public class TweetService {
         comment.setUserBName(user2.getUserName());
         log.info("当前插入的评论信息为：{}", comment);
         commentDao.insertComment(comment);
+        Message message = Message.builder()
+            .tweetId(commentReq.getTweetId())
+            .commentId(comment.getCommentId())
+            .userId(user1.getId())
+            .userName(user1.getUserName())
+            .toUserId(user2.getId())
+            .toUserName(user2.getUserName())
+            .content(commentReq.getContent())
+            .build();
+        webSocketServer.sendMessage(message);
+        messageDao.insertMessage(message);
+        log.info("评论消息为：{}", message);
     }
 
     /**
@@ -222,7 +244,9 @@ public class TweetService {
      *
      * @param req
      */
+    @Transactional(rollbackFor = Exception.class)
     public void sendReply(ReplyReq req) {
+        log.info("发送回复请求参数：{}", req);
         //先查询这条帖子有没有评论
         Comment comment = commentDao.selectByIds(req.getTweetId(), req.getCommentId());
         if (null == comment) {
@@ -235,6 +259,19 @@ public class TweetService {
         req.setUserName(user1.getUserName());
         req.setUserBName(user2.getUserName());
         replyDao.insertReply(req);
+        Message message = Message.builder()
+            .tweetId(req.getTweetId())
+            .commentId(req.getCommentId())
+            .replyId(req.getReplyId())
+            .content(req.getContent())
+            .userId(user1.getId())
+            .userName(user1.getUserName())
+            .toUserId(user2.getId())
+            .toUserName(user2.getUserName())
+            .build();
+        webSocketServer.sendMessage(message);
+        messageDao.insertMessage(message);
+        log.info("回复消息为：{}", message);
     }
 
     /**
@@ -337,5 +374,35 @@ public class TweetService {
         if (result <= 0) {
             throw new AppException("删除回复失败");
         }
+    }
+
+    /**
+     * 通过用户id查询其消息列表
+     *
+     * @param userId
+     * @return
+     */
+    public List<Message> getMessageList(Integer userId) {
+        log.info("当前用户id：{}", userId);
+        List<Message> messageList = messageDao.getMessageList(userId);
+        messageList.stream().map(data->{
+            messageDao.updateMessage(data.getId());
+            return data;
+            }).collect(Collectors.toList());
+        return messageList;
+    }
+
+    /**
+     * 通过消息id进行帖子详情
+     *
+     * @param messageId
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public TweetDetailsVo getMessageDetails(Integer messageId) {
+        log.info("消息id：{}", messageId);
+        Message message = messageDao.getMessageById(messageId);
+        messageDao.updateMessage(messageId);
+        return this.getTweetDetails(message.getTweetId());
     }
 }

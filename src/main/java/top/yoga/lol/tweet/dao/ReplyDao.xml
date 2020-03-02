@@ -9,7 +9,8 @@
         and r.user_bid = #{userBid}
         and status_flag=1
     </select>
-    <insert id="insertReply" parameterType="top.yoga.lol.tweet.vo.ReplyReq">
+    <insert id="insertReply" parameterType="top.yoga.lol.tweet.vo.ReplyReq"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="replyId">
         insert into reply(`tweet_id`,`comment_id`,`user_id`,`user_name`,`user_bid`,`user_bname`,`content`)
         values(#{tweetId},#{commentId},#{userId},#{userName},#{userBid},#{userBName},#{content})
     </insert>

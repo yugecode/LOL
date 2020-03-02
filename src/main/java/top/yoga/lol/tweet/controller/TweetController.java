@@ -2,12 +2,14 @@ package top.yoga.lol.tweet.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.yoga.lol.common.ResponseTemplate;
+import top.yoga.lol.tweet.entity.Message;
 import top.yoga.lol.tweet.service.TweetService;
 import top.yoga.lol.tweet.vo.CommentReq;
 import top.yoga.lol.tweet.vo.ReplyReq;
@@ -15,6 +17,8 @@ import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
 import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
+
+import java.util.List;
 
 /**
  * 帖子
@@ -182,6 +186,28 @@ public class TweetController {
                                      @RequestParam("userId") Integer userId) {
         tweetService.delReply(tweetId, commentId, replyId, userId);
         return ResponseTemplate.ok();
+    }
+
+    /**
+     * 获取用户的消息列表
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/messageList")
+    public ResponseTemplate<List<Message>> getMessageList(Integer userId) {
+        return ResponseTemplate.ok(tweetService.getMessageList(userId));
+    }
+
+    /**
+     * 消息详情
+     *
+     * @param messageId
+     * @return
+     */
+    @GetMapping("/messageDetails")
+    public ResponseTemplate<TweetDetailsVo> getMessageDetails(Integer messageId) {
+        return ResponseTemplate.ok(tweetService.getMessageDetails(messageId));
     }
 
 }
