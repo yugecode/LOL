@@ -90,13 +90,13 @@ public class UserService {
      * 登录逻辑
      *
      * @param loginReq 登录请求体
-//     * @param request
+     *                 //     * @param request
      * @return {@link String}
      * @author luojiayu
      * @date 2020/1/7
      */
     @Transactional
-    public UserVo login(LoginReq loginReq,HttpServletRequest request) {
+    public UserVo login(LoginReq loginReq, HttpServletRequest request) {
         log.info("登录请求参数：{}", loginReq);
         User user = userDao.getUserByName(loginReq.getUserName());
         if (null == user) {
@@ -166,11 +166,11 @@ public class UserService {
         //将修改的密码加密存到数据库中
         String password = passwordUtils.encodePassword(modifyReq.getModifyPassword(), String.valueOf(user.getId()));
         User user1 = User.builder()
-                .id(user.getId())
-                .userName(user.getUserName())
-                .email(user.getEmail())
-                .password(password)
-                .build();
+            .id(user.getId())
+            .userName(user.getUserName())
+            .email(user.getEmail())
+            .password(password)
+            .build();
         log.info("修改后的用户信息：{}", user1);
         userDao.modifyUser(user1);
         //改完密码之后退出登录

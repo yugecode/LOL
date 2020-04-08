@@ -47,16 +47,18 @@
             useGeneratedKeys="true" keyColumn="id" keyProperty="tweetId">
         INSERT INTO tweet
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test='id != null'>id,</if>
+            <if test='tweetId != null'>id,</if>
             <if test='title != null'>title,</if>
+            <if test="userName !=null">user_name,</if>
             <if test='content != null'>content,</if>
-            <if test='user_id != null'>user_id,</if>
+            <if test='userId != null'>user_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test='id != null'>#{tweetId},</if>
+            <if test='tweetId != null'>#{tweetId},</if>
             <if test='title != null'>#{title},</if>
+            <if test="userName !=null">#{userName},</if>
             <if test='content != null'>#{content},</if>
-            <if test='user_id != null'>#{user_id},</if>
+            <if test='userId != null'>#{userId},</if>
         </trim>
     </insert>
     <select id="getListTweet" parameterType="java.lang.Integer" resultMap="tweetList">

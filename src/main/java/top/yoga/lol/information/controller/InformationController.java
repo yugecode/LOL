@@ -1,7 +1,9 @@
 package top.yoga.lol.information.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import top.yoga.lol.information.service.HerosService;
 import top.yoga.lol.information.service.ItemsService;
 import top.yoga.lol.information.service.RunesService;
 import top.yoga.lol.information.service.SpellsService;
+import top.yoga.lol.information.service.StrategyService;
 import top.yoga.lol.information.vo.SpellsResp;
 
 import java.util.List;
@@ -33,6 +36,8 @@ public class InformationController {
     private RunesService runesService;
     @Autowired
     private SpellsService spellsService;
+    @Autowired
+    private StrategyService strategyService;
 
     /**
      * 获取英雄列表信息
@@ -95,5 +100,18 @@ public class InformationController {
     @RequestMapping(value = "/spells/details", method = RequestMethod.GET)
     public ResponseTemplate<Spells> getSpell(@RequestParam("id") Integer id) {
         return ResponseTemplate.ok(spellsService.getSpell(id));
+    }
+
+    /**
+     * 新闻资讯
+     *
+     * @param status   综合,公告,赛事,攻略,社区(0,1,2,3,4)
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/getStrategy")
+    public ResponseTemplate<JSONObject> getStrategy(Integer status, Integer pageNum, Integer pageSize) {
+        return ResponseTemplate.ok(strategyService.getStrategy(status, pageNum, pageSize));
     }
 }

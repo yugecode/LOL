@@ -1,6 +1,7 @@
 package top.yoga.lol.common.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import top.yoga.lol.tweet.entity.Message;
@@ -26,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author luojiayu
  * @date 2020/2/26 9:24
  */
-@ServerEndpoint(value = "/websocket/{id}")
+@ServerEndpoint(value = "/websocket")
 @Component
 @Slf4j
 public class WebSocketServer {
@@ -38,14 +39,12 @@ public class WebSocketServer {
     private User shiroUser;
     //用户service信息
     private UserService userService;
-
+    @Autowired
     private UserDao userDao;
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static ConcurrentHashMap<Integer, WebSocketServer> webSocketSet = new ConcurrentHashMap();
-    //当前用户的id（发消息的人的id）
-    private Integer id = null;
 
     /**
      * 连接建立成功调用的方法
@@ -80,8 +79,9 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        User user = userDao.getUserById(id);
-        log.info("收到来自窗口:{}的信息:{}", user.getUserName(), message);
+        //收到消息不做处理
+//        User user = userDao.getUserById(id);
+//        log.info("收到来自窗口:{}的信息:{}", user.getUserName(), message);
     }
 
     /**
@@ -133,14 +133,15 @@ public class WebSocketServer {
     /**
      * 给指定的某给人推送消息
      *
-     * @param toUserId 发送给哪个用户的
-     * @param message  消息（对象）
+     * @param message 消息（对象）
      */
-    public void sendToUser(Integer toUserId, Message message) {
-        User user = userDao.getUserById(id);
-        User touser = userDao.getUserById(toUserId);
-        webSocketSet.get(toUserId).sendMessage(message);
-        log.info("当前用户为：{}，推送用户为：{}，推送消息为：{}", user.getUserName(), touser.getUserName(), message);
+    public void sendToUser(Message message) {
+        User user = userDao.getUserById(message.getUserId());
+        User touser = userDao.getUserById(message.getToUserId());
+        if (null != webSocketSet.get(message.getToUserId())) {
+            webSocketSet.get(message.getToUserId()).sendMessage(message);
+            log.info("当前用户为：{}，推送用户为：{}，推送消息为：{}", user.getUserName(), touser.getUserName(), message);
+        }
     }
 
     /**

@@ -70,6 +70,8 @@ public class Message {
      */
     private Integer state;
 
+    private Integer statusFlag;
+
     /**
      * 消息创建时间
      */

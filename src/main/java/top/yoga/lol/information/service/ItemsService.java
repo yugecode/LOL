@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.yoga.lol.common.exception.AppException;
+import top.yoga.lol.information.dao.ItemsDao;
 import top.yoga.lol.information.utils.GetInfoUtils;
 import top.yoga.lol.information.utils.RequestsUtils;
 
@@ -22,6 +23,8 @@ public class ItemsService {
 
     @Autowired
     private RequestsUtils requestsUtils;
+    @Autowired
+    private ItemsDao itemsDao;
 
     @Value("${python-address}")
     private String address;
@@ -34,7 +37,10 @@ public class ItemsService {
      * @return
      */
     public JSONObject getItems() {
-        return requestsUtils.doGet("http://" + address + ":" + port + "/ParseItems");
+//        JSONObject jsonObject = requestsUtils.doGet("http://" + address + ":" + port + "/ParseItems");
+//        itemsDao.insertItems(jsonObject.toString());
+        String items = itemsDao.getItems();
+        return JSONObject.parseObject(items);
     }
 
     /**

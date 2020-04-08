@@ -50,30 +50,30 @@
         INSERT INTO message
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test='id != null'>id,</if>
-            <if test='user_id != null'>user_id,</if>
-            <if test='user_name != null'>user_name,</if>
-            <if test='to_user_id != null'>to_user_id,</if>
-            <if test='to_user_name != null'>to_user_name,</if>
-            <if test='tweet_id != null'>tweet_id,</if>
-            <if test='comment_id != null'>comment_id,</if>
-            <if test='reply_id != null'>reply_id,</if>
+            <if test='userId != null'>user_id,</if>
+            <if test='userName != null'>user_name,</if>
+            <if test='toUserId != null'>to_user_id,</if>
+            <if test='toUserName != null'>to_user_name,</if>
+            <if test='tweetId != null'>tweet_id,</if>
+            <if test='commentId != null'>comment_id,</if>
+            <if test='replyId != null'>reply_id,</if>
             <if test='content != null'>content,</if>
-            <if test='status_flag != null'>status_flag,</if>
+            <if test='statusFlag != null'>status_flag,</if>
             <if test='state != null'>state,</if>
             <if test='msgCreateTime != null'>gmt_create,</if>
             <if test='msgModifiedTime != null'>gmt_modified,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test='id != null'>#{id},</if>
-            <if test='user_id != null'>#{userId},</if>
-            <if test='user_name != null'>#{userName},</if>
-            <if test='to_user_id != null'>#{toUserId},</if>
-            <if test='to_user_name != null'>#{toUserName},</if>
-            <if test='tweet_id != null'>#{tweetId},</if>
-            <if test='comment_id != null'>#{commentId},</if>
-            <if test='reply_id != null'>#{replyId},</if>
+            <if test='userId != null'>#{userId},</if>
+            <if test='userName != null'>#{userName},</if>
+            <if test='toUserId != null'>#{toUserId},</if>
+            <if test='toUserName != null'>#{toUserName},</if>
+            <if test='tweetId != null'>#{tweetId},</if>
+            <if test='commentId != null'>#{commentId},</if>
+            <if test='replyId != null'>#{replyId},</if>
             <if test='content != null'>#{content},</if>
-            <if test='status_flag != null'>#{statusFlag},</if>
+            <if test='statusFlag != null'>#{statusFlag},</if>
             <if test='state != null'>#{state},</if>
             <if test='msgCreateTime != null'>#{msgCreateTime},</if>
             <if test='msgModifiedTime != null'>#{msgModifiedTime},</if>

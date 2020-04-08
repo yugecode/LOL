@@ -127,6 +127,16 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
         </dependency>
+        <!--kafka依赖-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.kafka</groupId>-->
+<!--            <artifactId>spring-kafka</artifactId>-->
+<!--        </dependency>-->
+        <!--zookeeper依赖-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.zookeeper</groupId>-->
+<!--            <artifactId>zookeeper</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -138,28 +148,28 @@
         </plugins>
         <!--将dao和xml配置到统一目录下-->
         <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <!--<include>**/*.yml</include>-->
-                    <!--<include>mapper/*.xml</include>-->
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*Dao.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/test/</directory>
-                <excludes>
-                    <exclude>**/*</exclude>
-                </excludes>
-            </resource>
-        </resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <!--<include>**/*.yml</include>-->
+                <!--<include>mapper/*.xml</include>-->
+                <include>**/*</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*Dao.xml</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/test/</directory>
+            <excludes>
+                <exclude>**/*</exclude>
+            </excludes>
+        </resource>
+    </resources>
     </build>
 
 </project>

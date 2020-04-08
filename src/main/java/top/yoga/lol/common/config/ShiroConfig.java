@@ -74,7 +74,7 @@ public class ShiroConfig {
 //        filterChainMap.put("/info/**", "anon");
         filterChainMap.put("/info/**", "authc");
         //帖子相关接口进行拦截
-        filterChainMap.put("/tweet/**", "anon");
+        filterChainMap.put("/tweet/**", "authc");
         // 修改密码需要身份认证
         filterChainMap.put("/user/logout", "authc");
         filterChainMap.put("/user/modifyPassword", "authc");

@@ -64,6 +64,8 @@ public class MyRealm extends AuthorizingRealm {
         if (user != null) {
             // 把当前用户存到 Session 中
             SecurityUtils.getSubject().getSession().setAttribute("user", user);
+            System.out.println("session:" + SecurityUtils.getSubject().getSession());
+            System.out.println("登陆用户：" + SecurityUtils.getSubject().getSession().getAttribute("user"));
             // Objects.requireNonNull(HttpContext.getRequest()).getSession()
             // 传入用户名和密码进行身份认证，并返回认证信息
             log.info("MyRealm中的用户信息：{}", user);

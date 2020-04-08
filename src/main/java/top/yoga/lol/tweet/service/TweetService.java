@@ -180,7 +180,7 @@ public class TweetService {
             .toUserName(user2.getUserName())
             .content(commentReq.getContent())
             .build();
-        webSocketServer.sendMessage(message);
+        webSocketServer.sendToUser(message);
         messageDao.insertMessage(message);
         log.info("评论消息为：{}", message);
     }
@@ -269,7 +269,7 @@ public class TweetService {
             .toUserId(user2.getId())
             .toUserName(user2.getUserName())
             .build();
-        webSocketServer.sendMessage(message);
+        webSocketServer.sendToUser(message);
         messageDao.insertMessage(message);
         log.info("回复消息为：{}", message);
     }
