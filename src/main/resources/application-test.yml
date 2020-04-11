@@ -62,5 +62,5 @@ spring:
 python-address: 47.98.161.255
 python-port: 9999
 
-#跨域配置，生产环境
-cors-config: http://llxali.club
+#跨域配置，开发环境
+cors-config: *

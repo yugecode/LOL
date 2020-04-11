@@ -33,10 +33,11 @@ public class MailService {
      *
      * @param to
      */
-    public void sendMail(String to) {
+    public int sendMail(String to) {
         int code = mailUtils.sendMail(to);
         //将用户的email和验证码存入redis中
         redisUtils.set(to, code, 300);
+        return code;
     }
 
     /**
@@ -47,7 +48,7 @@ public class MailService {
      * @author luojiayu
      * @date 2020/1/7
      */
-    public void sendCode(String name) {
+    public int sendCode(String name) {
         User user = userDao.getUserByName(name);
         if (null == user) {
             throw new AppException("该账号未注册");
@@ -57,5 +58,6 @@ public class MailService {
         redisUtils.set(user.getEmail(), code, 60);
         redisUtils.set("code", code, 60);
         log.info("当前的验证码为：{}", code);
+        return code;
     }
 }
