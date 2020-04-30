@@ -72,9 +72,9 @@ public class ShiroConfig {
         // 以“/info/” 开头的用户需要身份认证，authc 表示要进行身份认证
         //英雄联盟信息接口
 //        filterChainMap.put("/info/**", "anon");
-        filterChainMap.put("/info/**", "authc");
+        filterChainMap.put("/info/**", "anon");
         //帖子相关接口进行拦截
-        filterChainMap.put("/tweet/**", "authc");
+        filterChainMap.put("/tweet/**", "anon");
         // 修改密码需要身份认证
         filterChainMap.put("/user/logout", "authc");
         filterChainMap.put("/user/modifyPassword", "authc");

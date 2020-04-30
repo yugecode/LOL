@@ -1,6 +1,7 @@
 package top.yoga.lol.user.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import top.yoga.lol.user.entity.User;
 
 /**
@@ -19,6 +20,16 @@ public interface UserDao {
      * @return
      */
     User getUserByName(String name);
+
+    /**
+     * 通过用户名和密码获取用户信息
+     *
+     * @param name
+     * @param password
+     * @return
+     */
+    User getUser(@Param("name") String name,
+                 @Param("password") String password);
 
     /**
      * 通过id用户信息

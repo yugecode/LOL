@@ -13,6 +13,13 @@
 	    status_flag = 1
 	    AND user_name = #{name}
     </select>
+    <select id="getUser" parameterType="java.lang.String" resultType="top.yoga.lol.user.entity.User">
+        SELECT id,user_name,password,email FROM `user`
+        WHERE
+	    status_flag = 1
+	    AND user_name = #{name}
+	    AND password = #{password}
+    </select>
 
     <select id="getUserById" parameterType="java.lang.Integer" resultType="top.yoga.lol.user.entity.User">
         SELECT id,user_name,password,email FROM `user`

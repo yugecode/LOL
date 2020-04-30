@@ -29,7 +29,7 @@ public class StrategyService {
             url = "http://" + address + ":" + port + "/getStrategy?status=" + status;
         } else {
             url = "http://" + address + ":" + port +
-                "/getStrategy?status=" + status + "&pageNum" + pageNum + "&pageSize" + pageSize;
+                "/getStrategy?status=" + status + "&pageNum=" + pageNum + "&pageSize=" + pageSize;
         }
         JSONObject jsonObject = requestsUtils.doGet(url);
         return jsonObject;

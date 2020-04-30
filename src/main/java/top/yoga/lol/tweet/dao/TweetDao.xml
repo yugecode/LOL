@@ -126,8 +126,8 @@
         tu.user_id tumbupsUserId,
         tu.user_name tumbupsUserName
         FROM
-        `comment` c
-        LEFT JOIN `tweet` t ON c.tweet_id = t.id
+       `tweet` t
+        LEFT JOIN  `comment` c ON c.tweet_id = t.id
         LEFT JOIN `reply` r ON r.comment_id = c.id
         LEFT JOIN tumbups tu ON tu.tweet_id = t.id
         WHERE
@@ -135,7 +135,7 @@
         AND ( c.status_flag = 1 OR c.status_flag IS NULL )
         AND ( r.status_flag = 1 OR r.status_flag IS NULL )
         AND ( tu.status_flag = 1 OR tu.status_flag IS NULL )
-        AND c.tweet_id = #{tweetId}
+        AND t.id = #{tweetId}
         ORDER BY
         r.gmt_create asc
     </select>

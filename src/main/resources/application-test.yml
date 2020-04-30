@@ -58,9 +58,10 @@ spring:
         max-idle: 20
         min-idle: 2
 
+#跨域配置，开发环境
+cors-config: "*"
+
 #请求python接口的地址和端口
 python-address: 47.98.161.255
 python-port: 9999
 
-#跨域配置，开发环境
-cors-config: *

@@ -21,6 +21,8 @@ import top.yoga.lol.user.utils.MailUtils;
 import top.yoga.lol.user.utils.UserUtils;
 import top.yoga.lol.user.vo.ForgetPasswordReq;
 import top.yoga.lol.user.vo.LoginReq;
+import top.yoga.lol.user.vo.LoginReq1;
+import top.yoga.lol.user.vo.LoginReq2;
 import top.yoga.lol.user.vo.ModifyReq;
 import top.yoga.lol.user.vo.RegisterReq;
 import top.yoga.lol.user.vo.UserVo;
@@ -116,6 +118,91 @@ public class UserService {
         String password = passwordUtils.encodePassword(loginReq.getPassword(), String.valueOf(user.getId()));
         // 根据用户名和密码创建 Token
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), password);
+        // 获取 subject 认证主体
+        Subject subject = UserUtils.getSubject();
+        try {
+            // 开始认证，这一步会跳到我们自定义的 Realm 中
+            subject.login(token);
+            request.getSession().setAttribute("user", user);
+            BeanUtils.copyProperties(user, userVo);
+            log.info("当前用户信息：{}", userVo);
+            return userVo;
+        } catch (UnknownAccountException e) {
+            throw new AppException("用户名不存在");
+        } catch (IncorrectCredentialsException e) {
+            throw new AppException("密码错误");
+        }
+    }
+
+    /**
+     * 用户名密码实现登陆
+     *
+     * @param loginReq
+     * @param request
+     * @return
+     */
+    @Transactional
+    public UserVo login1(LoginReq1 loginReq, HttpServletRequest request) {
+        log.info("登录请求参数：{}", loginReq);
+        User user = userDao.getUserByName(loginReq.getUserName());
+        if (null == user) {
+            throw new AppException("该用户未进行注册");
+        }
+        UserVo userVo = new UserVo();
+        //将密码进行加密
+        String password = passwordUtils.encodePassword(loginReq.getPassword(), String.valueOf(user.getId()));
+        User u = userDao.getUser(loginReq.getUserName(), password);
+        if (null == u) {
+            throw new AppException("账号或密码错误");
+        }
+        // 根据用户名和密码创建 Token
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), password);
+        // 获取 subject 认证主体
+        Subject subject = UserUtils.getSubject();
+        try {
+            // 开始认证，这一步会跳到我们自定义的 Realm 中
+            subject.login(token);
+            request.getSession().setAttribute("user", user);
+            BeanUtils.copyProperties(user, userVo);
+            log.info("当前用户信息：{}", userVo);
+            return userVo;
+        } catch (UnknownAccountException e) {
+            throw new AppException("用户名不存在");
+        } catch (IncorrectCredentialsException e) {
+            throw new AppException("密码错误");
+        }
+    }
+
+    /**
+     * 验证码登录
+     *
+     * @param loginReq 登录请求体
+     *                 //     * @param request
+     * @return {@link String}
+     * @author luojiayu
+     * @date 2020/1/7
+     */
+    @Transactional
+    public UserVo login2(LoginReq2 loginReq, HttpServletRequest request) {
+        log.info("登录请求参数：{}", loginReq);
+        User user = userDao.getUserByName(loginReq.getUserName());
+        if (null == user) {
+            throw new AppException("该用户未进行注册");
+        }
+        //获取验证码
+        Integer code = (Integer) redisUtils.get(user.getEmail());
+        if (null == code) {
+            throw new AppException("验证码失效");
+        }
+        if (!loginReq.getCode().equals(code)) {
+            throw new AppException("验证码输入错误");
+        }
+        redisUtils.del(user.getEmail());
+        UserVo userVo = new UserVo();
+        //将密码进行加密
+//        String password = passwordUtils.encodePassword(loginReq.getPassword(), String.valueOf(user.getId()));
+        // 根据用户名和密码创建 Token
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
         // 获取 subject 认证主体
         Subject subject = UserUtils.getSubject();
         try {

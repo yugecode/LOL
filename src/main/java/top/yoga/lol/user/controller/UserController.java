@@ -19,6 +19,8 @@ import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.service.UserService;
 import top.yoga.lol.user.vo.ForgetPasswordReq;
 import top.yoga.lol.user.vo.LoginReq;
+import top.yoga.lol.user.vo.LoginReq1;
+import top.yoga.lol.user.vo.LoginReq2;
 import top.yoga.lol.user.vo.ModifyReq;
 import top.yoga.lol.user.vo.RegisterReq;
 import top.yoga.lol.user.vo.UserVo;
@@ -66,8 +68,32 @@ public class UserController {
      * @date 2020/1/7
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseTemplate<UserVo> login(@RequestBody @Validated LoginReq loginReq,HttpServletRequest request) {
-        return ResponseTemplate.ok(userService.login(loginReq,request));
+    public ResponseTemplate<UserVo> login(@RequestBody @Validated LoginReq loginReq, HttpServletRequest request) {
+        return ResponseTemplate.ok(userService.login(loginReq, request));
+    }
+
+    /**
+     * 用户名加密码登录
+     *
+     * @param loginReq
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/login1", method = RequestMethod.POST)
+    public ResponseTemplate<UserVo> login1(@RequestBody @Validated LoginReq1 loginReq, HttpServletRequest request) {
+        return ResponseTemplate.ok(userService.login1(loginReq, request));
+    }
+
+    /**
+     * 用户名加验证码登录
+     *
+     * @param loginReq
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/login2", method = RequestMethod.POST)
+    public ResponseTemplate<UserVo> login2(@RequestBody @Validated LoginReq2 loginReq, HttpServletRequest request) {
+        return ResponseTemplate.ok(userService.login2(loginReq, request));
     }
 
     /**
