@@ -3,6 +3,7 @@ package top.yoga.lol.user.utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import top.yoga.lol.common.exception.AppException;
 import top.yoga.lol.user.entity.User;
 
 /**
@@ -27,7 +28,11 @@ public class UserUtils {
     public static User getUserInfo() {
         Session session = SecurityUtils.getSubject().getSession();
         User user = (User) session.getAttribute("user");
-        return user;
+        if (null != user) {
+            return user;
+        } else {
+            throw new AppException("当前用户不存在");
+        }
     }
 
     /**

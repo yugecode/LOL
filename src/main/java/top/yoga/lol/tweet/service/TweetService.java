@@ -31,6 +31,7 @@ import top.yoga.lol.user.dao.UserDao;
 import top.yoga.lol.user.entity.User;
 import top.yoga.lol.user.utils.UserUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,16 +113,12 @@ public class TweetService {
     /**
      * 当前用户的所有帖子
      *
-     * @param userId
      * @return
      */
-    public TweetListVo listAllUserTweet(Integer userId) {
+    public TweetListVo listAllUserTweet() {
         User user = UserUtils.getUserInfo();
         List<Tweet> list = new ArrayList<>();
-        if (!userId.equals(user.getId())) {
-            throw new AppException("当前的用户与查询帖子用户不匹配");
-        }
-        List<Tweet> listTweets = tweetDao.getListTweet(userId);
+        List<Tweet> listTweets = tweetDao.getListTweet(user.getId());
         if (!CollectionUtils.isEmpty(listTweets)) {
             for (Tweet t : listTweets) {
                 Tweet tweet = new Tweet();
@@ -379,16 +376,15 @@ public class TweetService {
     /**
      * 通过用户id查询其消息列表
      *
-     * @param userId
      * @return
      */
-    public List<Message> getMessageList(Integer userId) {
-        log.info("当前用户id：{}", userId);
-        List<Message> messageList = messageDao.getMessageList(userId);
-        messageList.stream().map(data->{
+    public List<Message> getMessageList() {
+        User user = UserUtils.getUserInfo();
+        List<Message> messageList = messageDao.getMessageList(user.getId());
+        messageList.stream().map(data -> {
             messageDao.updateMessage(data.getId());
             return data;
-            }).collect(Collectors.toList());
+        }).collect(Collectors.toList());
         return messageList;
     }
 

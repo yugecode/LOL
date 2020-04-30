@@ -18,6 +18,7 @@ import top.yoga.lol.tweet.vo.TweetListVo;
 import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -62,12 +63,11 @@ public class TweetController {
     /**
      * 查询当前用户下的帖子列表
      *
-     * @param userId 用户id
      * @return
      */
     @RequestMapping(value = "/allUserList", method = RequestMethod.GET)
-    public ResponseTemplate<TweetListVo> listAllUserTweet(@RequestParam("userId") Integer userId) {
-        return ResponseTemplate.ok(tweetService.listAllUserTweet(userId));
+    public ResponseTemplate<TweetListVo> listAllUserTweet() {
+        return ResponseTemplate.ok(tweetService.listAllUserTweet());
     }
 
     /**
@@ -191,12 +191,11 @@ public class TweetController {
     /**
      * 获取用户的消息列表
      *
-     * @param userId
      * @return
      */
     @GetMapping("/messageList")
-    public ResponseTemplate<List<Message>> getMessageList(Integer userId) {
-        return ResponseTemplate.ok(tweetService.getMessageList(userId));
+    public ResponseTemplate<List<Message>> getMessageList() {
+        return ResponseTemplate.ok(tweetService.getMessageList());
     }
 
     /**
