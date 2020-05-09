@@ -17,6 +17,8 @@ import top.yoga.lol.tweet.vo.TweetDetailsVo;
 import top.yoga.lol.tweet.vo.TweetListVo;
 import top.yoga.lol.tweet.vo.TweetModifiedReq;
 import top.yoga.lol.tweet.vo.TweetReq;
+import top.yoga.lol.user.entity.User;
+import top.yoga.lol.user.utils.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -68,6 +70,17 @@ public class TweetController {
     @RequestMapping(value = "/allUserList", method = RequestMethod.GET)
     public ResponseTemplate<TweetListVo> listAllUserTweet() {
         return ResponseTemplate.ok(tweetService.listAllUserTweet());
+    }
+
+
+    /**
+     * 查询当前用户下的帖子列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getList", method = RequestMethod.GET)
+    public ResponseTemplate<TweetListVo> getList(String name) {
+        return ResponseTemplate.ok(tweetService.getList(name));
     }
 
     /**
@@ -145,13 +158,12 @@ public class TweetController {
      * 删除自己发布的帖子
      *
      * @param tweetId
-     * @param userId
      * @return
      */
     @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    public ResponseTemplate delTweet(@RequestParam("tweetId") Integer tweetId,
-                                     @RequestParam("userId") Integer userId) {
-        tweetService.delTweet(tweetId, userId);
+    public ResponseTemplate delTweet(@RequestParam("tweetId") Integer tweetId) {
+        User user = UserUtils.getUserInfo();
+        tweetService.delTweet(tweetId, user.getId());
         return ResponseTemplate.ok();
     }
 
@@ -160,14 +172,13 @@ public class TweetController {
      *
      * @param tweetId
      * @param commentId
-     * @param userId
      * @return
      */
     @RequestMapping(value = "/delComment", method = RequestMethod.DELETE)
     public ResponseTemplate delComment(@RequestParam("tweetId") Integer tweetId,
-                                       @RequestParam("commentId") Integer commentId,
-                                       @RequestParam("userId") Integer userId) {
-        tweetService.delComment(tweetId, commentId, userId);
+                                       @RequestParam("commentId") Integer commentId) {
+        User user = UserUtils.getUserInfo();
+        tweetService.delComment(tweetId, commentId, user.getId());
         return ResponseTemplate.ok();
     }
 
@@ -176,15 +187,14 @@ public class TweetController {
      *
      * @param tweetId
      * @param commentId
-     * @param userId
      * @return
      */
     @RequestMapping(value = "/delReply", method = RequestMethod.DELETE)
     public ResponseTemplate delReply(@RequestParam("tweetId") Integer tweetId,
                                      @RequestParam("commentId") Integer commentId,
-                                     @RequestParam("replyId") Integer replyId,
-                                     @RequestParam("userId") Integer userId) {
-        tweetService.delReply(tweetId, commentId, replyId, userId);
+                                     @RequestParam("replyId") Integer replyId) {
+        User user = UserUtils.getUserInfo();
+        tweetService.delReply(tweetId, commentId, replyId, user.getId());
         return ResponseTemplate.ok();
     }
 

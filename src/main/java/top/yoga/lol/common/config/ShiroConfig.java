@@ -76,6 +76,7 @@ public class ShiroConfig {
         //帖子相关接口进行拦截
         filterChainMap.put("/tweet/allList", "anon");
         filterChainMap.put("/tweet/getDetails", "anon");
+        filterChainMap.put("/tweet/getList", "anon");
         filterChainMap.put("/tweet/allUserList", "authc");
         filterChainMap.put("/tweet/send", "authc");
         filterChainMap.put("/tweet/sendContent", "authc");

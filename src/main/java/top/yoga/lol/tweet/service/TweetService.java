@@ -140,6 +140,35 @@ public class TweetService {
     }
 
     /**
+     * 当前用户的所有帖子
+     *
+     * @return
+     */
+    public TweetListVo getList(String name) {
+        User user = userDao.getUserByName(name);
+        List<Tweet> list = new ArrayList<>();
+        List<Tweet> listTweets = tweetDao.getListTweet(user.getId());
+        if (!CollectionUtils.isEmpty(listTweets)) {
+            for (Tweet t : listTweets) {
+                Tweet tweet = new Tweet();
+                tweet.setContent(t.getContent());
+                tweet.setTitle(t.getTitle());
+                tweet.setTumbupsList(t.getTumbupsList());
+                tweet.setTweetId(t.getTweetId());
+                tweet.setTweetUserId(t.getTweetUserId());
+                tweet.setTweetUserName(userDao.getUserById(t.getTweetUserId()).getUserName());
+                tweet.setNum(t.getTumbupsList().size());
+                tweet.setReleaseTime(t.getReleaseTime());
+                list.add(tweet);
+            }
+        }
+        log.info("当前用户信息为：，{}，帖子信息为：{}", user, list);
+        return TweetListVo.builder()
+            .tweets(list)
+            .build();
+    }
+
+    /**
      * 发送评论
      *
      * @param commentReq 评论请求
@@ -336,10 +365,6 @@ public class TweetService {
      * @param userId    评论者id
      */
     public void delComment(Integer tweetId, Integer commentId, Integer userId) {
-        User user = UserUtils.getUserInfo();
-        if (userId != user.getId()) {
-            throw new AppException("用户不一致无法删除评论信息");
-        }
         //查询这条评论是否存在
         Comment comment = commentDao.selectByIds(tweetId, commentId);
         if (comment == null) {
